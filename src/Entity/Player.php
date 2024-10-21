@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
@@ -27,7 +28,8 @@ use Symfony\Component\Serializer\Attribute\Groups;
 #[ApiResource(operations: [
     new Get(),
     new Post(denormalizationContext: ["groups" => ["player:create"]], validationContext: ["groups" => ["Default", "player:create"]], processor: PlayerProcessor::class),
-    new Patch(denormalizationContext: ["groups" => ["player:update"]], validationContext: ["groups" => ["Default", "player:update"]], processor: PlayerProcessor::class) //TODO path security with auth
+    new Patch(denormalizationContext: ["groups" => ["player:update"]], validationContext: ["groups" => ["Default", "player:update"]], processor: PlayerProcessor::class), //TODO path security with auth
+    new Delete() //TODO path security with auth + à l'avenir devra supprimer son inscription aux events
 ])]
 class Player implements UserInterface, PasswordAuthenticatedUserInterface
 {

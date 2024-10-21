@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
@@ -27,7 +28,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(operations: [
     new Get(),
     new Post(denormalizationContext: ["groups" => ["company:create"]], validationContext: ["groups" => ["Default", "company:create"]], processor: PlayerProcessor::class),
-    new Patch(denormalizationContext: ["groups" => ["company:update"]], validationContext: ["groups" => ["Default", "company:update"]], processor: PlayerProcessor::class) //TODO  path security with auth
+    new Patch(denormalizationContext: ["groups" => ["company:update"]], validationContext: ["groups" => ["Default", "company:update"]], processor: PlayerProcessor::class), //TODO  path security with auth
+    new Delete() //TODO path security with auth
 ])]
 class Company implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -61,7 +63,7 @@ class Company implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, VideoGame>
      */
-    #[ORM\OneToMany(targetEntity: VideoGame::class, mappedBy: 'company')]
+    #[ORM\OneToMany(targetEntity: VideoGame::class, mappedBy: 'company', orphanRemoval: true)]
     private Collection $videoGames;
 
     /**
