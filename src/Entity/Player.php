@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Repository\PlayerRepository;
 use App\State\PlayerProcessor;
@@ -25,7 +26,8 @@ use Symfony\Component\Serializer\Attribute\Groups;
 #[UniqueEntity("email",message: "Email already used")]
 #[ApiResource(operations: [
     new Get(),
-    new Post(denormalizationContext: ["groups" => ["player:create"]], validationContext: ["groups" => ["Default", "player:create"]], processor: PlayerProcessor::class)
+    new Post(denormalizationContext: ["groups" => ["player:create"]], validationContext: ["groups" => ["Default", "player:create"]], processor: PlayerProcessor::class),
+    new Patch(denormalizationContext: ["groups" => ["player:update"]], validationContext: ["groups" => ["Default", "player:update"]], processor: PlayerProcessor::class) //TODO path security with auth
 ])]
 class Player implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -43,24 +45,24 @@ class Player implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     #[Assert\NotNull(groups: ["player:create"])]
     #[Assert\NotBlank(groups: ["player:create"])]
-    #[Groups(["player:create"])]
+    #[Groups(["player:create", "player:update"])]
     private ?string $firstName = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Assert\NotNull(groups: ["player:create"])]
     #[Assert\NotBlank(groups: ["player:create"])]
-    #[Groups(["player:create"])]
+    #[Groups(["player:create", "player:update"])]
     private ?\DateTimeInterface $birthdayDate = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotNull(groups: ["player:create"])]
     #[Assert\NotBlank(groups: ["player:create"])]
     #[Assert\Email(message: 'Email not valid')]
-    #[Groups(["player:create"])]
+    #[Groups(["player:create", "player:update"])]
     private ?string $email = null;
 
     #[ORM\Column(type: Types::ARRAY, nullable: true)]
-    #[Groups(["player:create"])]
+    #[Groups(["player:create", "player:update"])]
     private ?array $favoriteGames = null;
 
     #[ORM\Column(length: 255)]
@@ -75,7 +77,7 @@ class Player implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Length(min: 8, max:30, minMessage: "Password too short", maxMessage: "Password too long")]
     #[Assert\Regex("#^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\w\W]{8,30}$#", message: "Password not valid (Need at least a lowercase, an uppercase and a number)")]
     #[ApiProperty(readable: false,writable: true)]
-    #[Groups(["player:create"])]
+    #[Groups(["player:create", "player:update"])]
     private ?string $plainPassword = null;
 
     #[ORM\Column]
