@@ -2,10 +2,15 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Post;
 use App\Repository\PlaytestRepository;
+use App\State\PlayTestProcessor;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PlaytestRepository::class)]
 #[ApiResource(
@@ -27,19 +32,29 @@ class Playtest
 
     #[ORM\ManyToOne(inversedBy: 'playtests')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank(groups: ["playtest:create"])]
+    #[Assert\NotNull(groups: ["playtest:create"])]
+    #[Groups(["playtest:create"])]
     private ?VideoGame $videoGame = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\Type("\DateTimeInterface",groups: ["playtest:create"])]
+    #[Groups(["playtest:create"])]
     private ?\DateTimeInterface $begin = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\Type("\DateTimeInterface",groups: ["playtest:create"])]
+    #[Assert\GreaterThan(propertyPath: "begin")]
+    #[Groups(["playtest:create"])]
     private ?\DateTimeInterface $end = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(["playtest:create"])]
     private ?string $adress = null;
 
     #[ORM\ManyToOne(inversedBy: 'playtests')]
     #[ORM\JoinColumn(nullable: false)]
+    #[ApiProperty(writable: false)]
     private ?Company $company = null;
 
     public function getId(): ?int
