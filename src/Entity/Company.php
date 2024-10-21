@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Repository\CompanyRepository;
 use App\State\PlayerProcessor;
@@ -25,7 +26,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[UniqueEntity("email",message: "Email already used")]
 #[ApiResource(operations: [
     new Get(),
-    new Post(denormalizationContext: ["groups" => ["company:create"]], validationContext: ["groups" => ["Default", "company:create"]], processor: PlayerProcessor::class)
+    new Post(denormalizationContext: ["groups" => ["company:create"]], validationContext: ["groups" => ["Default", "company:create"]], processor: PlayerProcessor::class),
+    new Patch(denormalizationContext: ["groups" => ["company:update"]], validationContext: ["groups" => ["Default", "company:update"]], processor: PlayerProcessor::class) //TODO  path security with auth
 ])]
 class Company implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -37,23 +39,23 @@ class Company implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     #[Assert\NotNull(groups: ["company:create"])]
     #[Assert\NotBlank(groups: ["company:create"])]
-    #[Groups(["company:create"])]
+    #[Groups(["company:create","company:update"])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(["company:create"])]
+    #[Groups(["company:create", "company:update"])]
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotNull(groups: ["company:create"])]
     #[Assert\NotBlank(groups: ["company:create"])]
-    #[Groups(["company:create"])]
+    #[Groups(["company:create","company:update"])]
     private ?string $adress = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotNull(groups: ["company:create"])]
     #[Assert\NotBlank(groups: ["company:create"])]
-    #[Groups(["company:create"])]
+    #[Groups(["company:create","company:update"])]
     private ?string $contact = null;
 
     /**
@@ -72,7 +74,7 @@ class Company implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotNull(groups: ["company:create"])]
     #[Assert\NotBlank(groups: ["company:create"])]
     #[Assert\Email(message: 'Email not valid')]
-    #[Groups(["company:create"])]
+    #[Groups(["company:create","company:update"])]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -94,7 +96,7 @@ class Company implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Length(min: 8, max:30, minMessage: "Password too short", maxMessage: "Password too long")]
     #[Assert\Regex("#^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\w\W]{8,30}$#", message: "Password not valid (Need at least a lowercase, an uppercase and a number)")]
     #[ApiProperty(readable: false,writable: true)]
-    #[Groups(["company:create"])]
+    #[Groups(["company:create","company:update"])]
     private ?string $plainPassword = null;
 
     public function __construct()
