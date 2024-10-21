@@ -2,14 +2,32 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
 use App\Repository\VideoGameRepository;
+use App\State\VideoGameProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: VideoGameRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations:[
+        new Get(),
+        new GetCollection(),
+        new Post(
+            denormalizationContext: ["groups"=>["Default","video_game:create"]],
+            security: "is_granted('VIDEOGAME_CREATE',object)",
+            validationContext: ["groups"=>["Default","video_game:create"]],
+            processor: VideoGameProcessor::class
+        )
+    ]
+)]
 class VideoGame
 {
     #[ORM\Id]
@@ -18,12 +36,17 @@ class VideoGame
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(["video_game:create"])]
+    #[Assert\NotBlank(groups: ["video_game:create"])]
+    #[Assert\NotNull(groups: ["video_game:create"])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(["video_game:create"])]
     private ?string $type = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(["video_game:create"])]
     private ?string $support = null;
 
     /**
@@ -34,6 +57,7 @@ class VideoGame
 
     #[ORM\ManyToOne(inversedBy: 'videoGames')]
     #[ORM\JoinColumn(nullable: false)]
+    #[ApiProperty(writable: false)]
     private ?Company $company = null;
 
     public function __construct()
