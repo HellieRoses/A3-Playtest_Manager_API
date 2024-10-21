@@ -10,12 +10,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
 final class PlayTestVoter extends Voter
 {
     public const CREATE = 'PLAYTEST_CREATE';
+    public const MODIFY = 'PLAYTEST_MODIFY';
 
     protected function supports(string $attribute, mixed $subject): bool
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, [self::CREATE])
+        return in_array($attribute, [self::CREATE, self::MODIFY])
             && $subject instanceof \App\Entity\PlayTest;
     }
 
@@ -31,6 +32,8 @@ final class PlayTestVoter extends Voter
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
             case self::CREATE:
+                 return ($user instanceof Company && $subject->getVideoGame()->getCompany() == $user);
+             case self::MODIFY:
                  return ($user instanceof Company && $subject->getCompany() == $user);
         }
 

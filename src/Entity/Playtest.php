@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
@@ -26,11 +27,14 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
         new Patch(
             denormalizationContext: ["groups"=>["Default","playtest:update"]],
-            //security: "is_granted('PLAYTEST_CREATE',object)",
+            security: "is_granted('PLAYTEST_MODIFY',object)",
             validationContext: ["groups"=>["Default","playtest:update"]],
         ),
         new Get(),
-        new GetCollection()
+        new GetCollection(),
+        new Delete(
+            security: "is_granted('PLAYTEST_MODIFY',object))",
+        ),
     ]
 )]
 class Playtest
