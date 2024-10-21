@@ -43,7 +43,7 @@ class Company implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(["company:create"])]
+    #[Groups(["company:create", "company:update"])]
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]

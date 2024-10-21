@@ -39,7 +39,7 @@ class Player implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     #[Assert\NotNull(groups: ["player:create"])]
     #[Assert\NotBlank(groups: ["player:create"])]
-    #[Groups(["player:create"])]
+    #[Groups(["player:create", "company:update"])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
