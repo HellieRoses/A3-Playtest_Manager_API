@@ -4,6 +4,9 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Repository\PlaytestRepository;
 use App\State\PlayTestProcessor;
@@ -20,7 +23,14 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: "is_granted('PLAYTEST_CREATE',object)",
             validationContext: ["groups"=>["Default","playtest:create"]],
             processor: PlayTestProcessor::class
-        )
+        ),
+        new Patch(
+            denormalizationContext: ["groups"=>["Default","playtest:update"]],
+            //security: "is_granted('PLAYTEST_CREATE',object)",
+            validationContext: ["groups"=>["Default","playtest:update"]],
+        ),
+        new Get(),
+        new GetCollection()
     ]
 )]
 class Playtest
@@ -38,18 +48,18 @@ class Playtest
     private ?VideoGame $videoGame = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Assert\Type("\DateTimeInterface",groups: ["playtest:create"])]
-    #[Groups(["playtest:create"])]
+    #[Assert\Type("\DateTimeInterface",groups: ["playtest:create","playtest:update"])]
+    #[Groups(["playtest:create","playtest:update"])]
     private ?\DateTimeInterface $begin = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Assert\Type("\DateTimeInterface",groups: ["playtest:create"])]
+    #[Assert\Type("\DateTimeInterface",groups: ["playtest:create","playtest:update"])]
     #[Assert\GreaterThan(propertyPath: "begin")]
-    #[Groups(["playtest:create"])]
+    #[Groups(["playtest:create","playtest:update"])]
     private ?\DateTimeInterface $end = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(["playtest:create"])]
+    #[Groups(["playtest:create","playtest:update"])]
     private ?string $adress = null;
 
     #[ORM\ManyToOne(inversedBy: 'playtests')]
