@@ -8,7 +8,16 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PlaytestRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new Post(
+            denormalizationContext: ["groups"=>["Default","playtest:create"]],
+            security: "is_granted('PLAYTEST_CREATE',object)",
+            validationContext: ["groups"=>["Default","playtest:create"]],
+            processor: PlayTestProcessor::class
+        )
+    ]
+)]
 class Playtest
 {
     #[ORM\Id]
