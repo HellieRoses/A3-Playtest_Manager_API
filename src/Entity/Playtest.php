@@ -71,6 +71,16 @@ class Playtest
     #[ApiProperty(writable: false)]
     private ?Company $company = null;
 
+    #[ORM\Column]
+    #[Assert\NotBlank(groups: ["playtest:create"])]
+    #[Assert\NotNull(groups: ["playtest:create"])]
+    #[Groups(["playtest:create"])]
+    private ?bool $visibility = null;
+
+    #[ORM\Column]
+    #[Groups(["playtest:create","playtest:update"])]
+    private ?int $nbMaxPlayer = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -132,6 +142,30 @@ class Playtest
     public function setCompany(?Company $company): static
     {
         $this->company = $company;
+
+        return $this;
+    }
+
+    public function isVisibility(): ?bool
+    {
+        return $this->visibility;
+    }
+
+    public function setVisibility(bool $visibility): static
+    {
+        $this->visibility = $visibility;
+
+        return $this;
+    }
+
+    public function getNbMaxPlayer(): ?int
+    {
+        return $this->nbMaxPlayer;
+    }
+
+    public function setNbMaxPlayer(int $nbMaxPlayer): static
+    {
+        $this->nbMaxPlayer = $nbMaxPlayer;
 
         return $this;
     }
