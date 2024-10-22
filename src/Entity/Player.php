@@ -9,7 +9,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Repository\PlayerRepository;
-use App\State\PlayerProcessor;
+use App\State\UserProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -23,8 +23,14 @@ use Symfony\Component\Serializer\Attribute\Groups;
 #[ORM\Entity(repositoryClass: PlayerRepository::class)]
 #[ApiResource(operations: [
     new Get(),
-    new Post(denormalizationContext: ["groups" => ["player:create"]], validationContext: ["groups" => ["Default", "player:create"]], processor: PlayerProcessor::class),
-    new Patch(denormalizationContext: ["groups" => ["player:update"]], validationContext: ["groups" => ["Default", "player:update"]], processor: PlayerProcessor::class), //TODO path security with auth
+    new Post(
+        denormalizationContext: ["groups" => ["player:create"]],
+        validationContext: ["groups" => ["Default", "player:create"]],
+        processor: UserProcessor::class),
+    new Patch(
+        denormalizationContext: ["groups" => ["player:update"]],
+        validationContext: ["groups" => ["Default", "player:update"]],
+        processor: UserProcessor::class), //TODO path security with auth
     new Delete() //TODO path security with auth + à l'avenir devra supprimer son inscription aux events
 ])]
 class Player extends User

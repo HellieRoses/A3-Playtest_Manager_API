@@ -9,7 +9,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Repository\CompanyRepository;
-use App\State\PlayerProcessor;
+use App\State\UserProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -26,12 +26,12 @@ use Symfony\Component\Validator\Constraints as Assert;
     new Post(
         denormalizationContext: ["groups" => ["company:create"]],
         validationContext: ["groups" => ["Default", "company:create"]],
-        processor: PlayerProcessor::class
+        processor: UserProcessor::class
     ),
     new Patch(
         denormalizationContext: ["groups" => ["company:update"]],
         validationContext: ["groups" => ["Default", "company:update"]],
-        processor: PlayerProcessor::class
+        processor: UserProcessor::class
     ), //TODO  path security with auth
     new Delete() //TODO path security with auth
 ])]

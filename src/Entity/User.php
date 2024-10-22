@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -17,10 +18,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\DiscriminatorColumn(name:"discriminator", type:"string")]
 #[ORM\DiscriminatorMap(["user" => "User", "player" => "Player", "company" => "Company"])]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_LOGIN', fields: ['login'])]
-#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-#[UniqueEntity("login",message: "Login already used")]
-#[UniqueEntity("email",message: "Email already used")]
-#[ApiResource]
+#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email']), ]
+#[UniqueEntity("login",message: "Login already used", entityClass: User::class)]
+#[UniqueEntity("email",message: "Email already used", entityClass: User::class)]
+#[ApiResource(operations: [])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -39,7 +40,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotNull(groups: ["player:create","company:create"])]
     #[Assert\NotBlank(groups: ["player:create","company:create"])]
     #[Assert\Email(message: 'Email not valid')]
-    #[Groups(["player:create","company:create"])]
+    #[Groups(["player:create","company:create","player:update","company:update"])]
     private ?string $email = null;
 
     #[Assert\NotBlank(groups: ["player:create","company:create"])]
@@ -81,6 +82,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLogin(?string $login): void
     {
         $this->login = $login;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): void
+    {
+        $this->email = $email;
     }
 
     public function getPlainPassword(): ?string
