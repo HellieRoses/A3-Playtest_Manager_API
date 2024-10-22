@@ -47,7 +47,7 @@ class Player extends User
     #[Groups(["player:create", "player:update"])]
     private ?\DateTimeInterface $birthdayDate = null;
 
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
+    #[ORM\Column( nullable: true)]
     #[Groups(["player:create", "player:update"])]
     private ?array $favoriteGames = null;
 

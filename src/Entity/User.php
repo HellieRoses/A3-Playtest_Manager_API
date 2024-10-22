@@ -32,14 +32,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotNull(groups: ["player:create","company:create"])]
     #[Assert\NotBlank(groups: ["player:create","company:create"])]
     #[Assert\Length(min: 4, max: 20, minMessage: 'Login too short', maxMessage: "Login too long")]
-    #[Groups(["player:create"])]
+    #[Groups(["player:create","company:create"])]
     private ?string $login = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotNull(groups: ["player:create","company:create"])]
     #[Assert\NotBlank(groups: ["player:create","company:create"])]
     #[Assert\Email(message: 'Email not valid')]
-    #[Groups(["company:create","company:update","player:create","player:update"])]
+    #[Groups(["player:create","company:create"])]
     private ?string $email = null;
 
     #[Assert\NotBlank(groups: ["player:create","company:create"])]

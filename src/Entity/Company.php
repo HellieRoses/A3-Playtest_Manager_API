@@ -23,8 +23,16 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
 #[ApiResource(operations: [
     new Get(),
-    new Post(denormalizationContext: ["groups" => ["company:create"]], validationContext: ["groups" => ["Default", "company:create"]], processor: PlayerProcessor::class),
-    new Patch(denormalizationContext: ["groups" => ["company:update"]], validationContext: ["groups" => ["Default", "company:update"]], processor: PlayerProcessor::class), //TODO  path security with auth
+    new Post(
+        denormalizationContext: ["groups" => ["company:create"]],
+        validationContext: ["groups" => ["Default", "company:create"]],
+        processor: PlayerProcessor::class
+    ),
+    new Patch(
+        denormalizationContext: ["groups" => ["company:update"]],
+        validationContext: ["groups" => ["Default", "company:update"]],
+        processor: PlayerProcessor::class
+    ), //TODO  path security with auth
     new Delete() //TODO path security with auth
 ])]
 class Company extends User
