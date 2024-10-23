@@ -7,6 +7,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Repository\PlaytestRepository;
@@ -21,7 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     operations: [
         new Post(
             denormalizationContext: ["groups"=>["Default","playtest:create"]],
-            security: "is_granted('PLAYTEST_CREATE',object)",
+            //security: "is_granted('PLAYTEST_CREATE',object)",
             validationContext: ["groups"=>["Default","playtest:create"]],
             processor: PlayTestProcessor::class
         ),
@@ -35,6 +36,15 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Delete(
             security: "is_granted('PLAYTEST_MODIFY',object))",
         ),
+        new GetCollection(
+            uriTemplate: '/companies/{idCompany}/playtests',
+            uriVariables: [
+                "idCompany" => new Link(
+                    fromProperty: "playtests",
+                    fromClass: Company::class
+                )
+            ]
+        )
     ]
 )]
 class Playtest
