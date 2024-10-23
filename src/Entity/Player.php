@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Repository\PlayerRepository;
@@ -31,7 +32,8 @@ use Symfony\Component\Serializer\Attribute\Groups;
         denormalizationContext: ["groups" => ["player:update"]],
         validationContext: ["groups" => ["Default", "player:update"]],
         processor: UserProcessor::class), //TODO path security with auth
-    new Delete() //TODO path security with auth + à l'avenir devra supprimer son inscription aux events
+    new Delete(), //TODO path security with auth + à l'avenir devra supprimer son inscription aux events
+    new GetCollection()
 ])]
 class Player extends User
 {
