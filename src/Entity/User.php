@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -51,6 +52,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(["player:create", "player:update","company:create","company:update"])]
     private ?string $plainPassword = null;
 
+    #[UserPassword(groups: ["player:update","company:update"])]
+    private ?string $currentPlainPassword = null; //FIXME
+
     #[ORM\Column]
     #[ApiProperty(readable: false,writable: false)]
     private ?string $password = null;
@@ -64,9 +68,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
 
-    public function eraseCredentials()
+    public function eraseCredentials() :void
     {
         $this->plainPassword = null;
+        $this->currentPlainPassword = null;
     }
 
     public function getUserIdentifier(): string
@@ -102,6 +107,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPlainPassword(?string $plainPassword): void
     {
         $this->plainPassword = $plainPassword;
+    }
+
+    public function getCurrentPlainPassword(): ?string
+    {
+        return $this->currentPlainPassword;
+    }
+
+    public function setCurrentPlainPassword(?string $currentPlainPassword): void
+    {
+        $this->currentPlainPassword = $currentPlainPassword;
     }
 
     public function getPassword(): ?string
