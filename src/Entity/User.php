@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\InheritanceType("JOINED")]
 #[ORM\DiscriminatorColumn(name:"discriminator", type:"string")]
-#[ORM\DiscriminatorMap(["user" => "User", "player" => "Player", "company" => "Company"])]
+#[ORM\DiscriminatorMap(["user" => "User", "player" => "Player", "company" => "Company"])] //TODO test remove user because discrimator map need only non-abstract class
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_LOGIN', fields: ['login'])]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email']), ]
 #[UniqueEntity("login",message: "Login already used", entityClass: User::class)]
