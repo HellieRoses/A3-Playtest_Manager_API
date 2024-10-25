@@ -4,13 +4,16 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Repository\VideoGameRepository;
 use App\State\VideoGameProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -45,9 +48,9 @@ class VideoGame
     #[Groups(["video_game:create"])]
     private ?string $type = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::SIMPLE_ARRAY)]
     #[Groups(["video_game:create"])]
-    private ?string $support = null;
+    private ?array $support = [];
 
     /**
      * @var Collection<int, Playtest>
@@ -94,12 +97,12 @@ class VideoGame
         return $this;
     }
 
-    public function getSupport(): ?string
+    public function getSupport(): ?array
     {
         return $this->support;
     }
 
-    public function setSupport(string $support): static
+    public function setSupport(array $support): static
     {
         $this->support = $support;
 
