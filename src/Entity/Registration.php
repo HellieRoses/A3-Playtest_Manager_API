@@ -2,45 +2,57 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Post;
 use App\Repository\RegistrationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: RegistrationRepository::class)]
-#[ApiResource(operations: [])]
+#[ApiResource(operations: [
+    new Post(
+    denormalizationContext: ['groups' => ['registration:create']],
+    validationContext: ["groups" => ["Default", "registration:create"]],
+    ),
+    new Delete()])]
+#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_REGISTRATION', fields: ['playtest', 'player'])]
 class Registration
 {
     #[ORM\Id]
     #[ORM\ManyToOne(inversedBy: 'registrations')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Playtest $playtests = null;
+    #[ApiProperty(readable: true, writable: true, required: true)]
+    private Playtest $playtest ;
 
     #[ORM\Id]
     #[ORM\ManyToOne(inversedBy: 'registrations')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Player $players = null;
+    #[ApiProperty(readable: true, writable: false)]
+    private Player $player ;
 
 
-    public function getPlaytests(): ?Playtest
+    public function getPlaytest(): ?Playtest
     {
-        return $this->playtests;
+        return $this->playtest;
     }
 
-    public function setPlaytests(?Playtest $playtests): static
+    public function setPlaytest(?Playtest $playtest): static
     {
-        $this->playtests = $playtests;
+        $this->playtest = $playtest;
 
         return $this;
     }
 
-    public function getPlayers(): ?Player
+    public function getPlayer(): ?Player
     {
-        return $this->players;
+        return $this->player;
     }
 
-    public function setPlayers(?Player $players): static
+    public function setPlayers(?Player $player): static
     {
-        $this->players = $players;
+        $this->player = $player;
 
         return $this;
     }
