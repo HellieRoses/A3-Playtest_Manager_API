@@ -8,8 +8,19 @@ https://gitlabinfo.iutmontp.univ-montp2.fr/groupe-projet-web-s5/playtest-manager
 
 ## Utilisatton de l'API
 
+Pour utiliser pleinenement l'API, il faut d'abord s'authentifier. Pour cela, il faudra s'inscrire en tant que Joueur ou Studio puis se connecter. Une fois connecté, l'utilisateur pourra modifier ses informations ansi que supprimer son compte.
+<p>
+Un joueur connecté, 
+</p>
+<p>
+Un studio connecté, 
+</p>
+
 ### Les routes
 
+- Authentification
+    - **/api/auth**
+        - POST : Connecter un Utilisateur (Studio ou Joueur)
 - Studio (Company)
     - **/api/companies**
         - POST : Créer un Studio
@@ -35,7 +46,11 @@ https://gitlabinfo.iutmontp.univ-montp2.fr/groupe-projet-web-s5/playtest-manager
     - **/api/companies/{idCompany}/playtests**
         - GET : Récupérer les Sessions d'un Studio
 - Jeu Vidéo (VideoGame)
-    - **/**
+    - **/api/video_games**
+        - GET : Récupérer tout les jeux vidéos
+        - POST : Créer un Jeu Vidéo
+    - **/api/video_games/{id}**
+        - GET : Récupérer les informations d'un Jeu Vidéo
 
 ## Investissement du groupe
 
