@@ -94,14 +94,14 @@ class Playtest
     private ?int $nbMaxPlayer = null;
 
     /**
-     * @var Collection<int, Registration>
+     * @var Collection<int, Participation>
      */
-    #[ORM\OneToMany(targetEntity: Registration::class, mappedBy: 'playtests', orphanRemoval: true)]
-    private Collection $registrations;
+    #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'playtests', orphanRemoval: true)]
+    private Collection $participants;
 
     public function __construct()
     {
-        $this->registrations = new ArrayCollection();
+        $this->participants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -194,29 +194,29 @@ class Playtest
     }
 
     /**
-     * @return Collection<int, Registration>
+     * @return Collection<int, Participation>
      */
-    public function getRegistrations(): Collection
+    public function getParticipants(): Collection
     {
-        return $this->registrations;
+        return $this->participants;
     }
 
-    public function addRegistration(Registration $registration): static
+    public function addRegistration(Participation $registration): static
     {
-        if (!$this->registrations->contains($registration)) {
-            $this->registrations->add($registration);
-            $registration->setPlaytests($this);
+        if (!$this->participants->contains($registration)) {
+            $this->participants->add($registration);
+            $registration->setPlaytest($this);
         }
 
         return $this;
     }
 
-    public function removeRegistration(Registration $registration): static
+    public function removeRegistration(Participation $registration): static
     {
-        if ($this->registrations->removeElement($registration)) {
+        if ($this->participants->removeElement($registration)) {
             // set the owning side to null (unless already changed)
-            if ($registration->getPlaytests() === $this) {
-                $registration->setPlaytests(null);
+            if ($registration->getPlaytest() === $this) {
+                $registration->setPlaytest(null);
             }
         }
 

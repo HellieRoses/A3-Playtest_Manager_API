@@ -58,14 +58,14 @@ class Player extends User
     private ?array $favoriteGames = null;
 
     /**
-     * @var Collection<int, Registration>
+     * @var Collection<int, Participation>
      */
-    #[ORM\OneToMany(targetEntity: Registration::class, mappedBy: 'players', orphanRemoval: true)]
-    private Collection $registrations;
+    #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'players', orphanRemoval: true)]
+    private Collection $participations;
 
     public function __construct()
     {
-        $this->registrations = new ArrayCollection();
+        $this->participations = new ArrayCollection();
     }
 
     public function getName(): ?string
@@ -116,29 +116,29 @@ class Player extends User
     }
 
     /**
-     * @return Collection<int, Registration>
+     * @return Collection<int, Participation>
      */
-    public function getRegistrations(): Collection
+    public function getParticipations(): Collection
     {
-        return $this->registrations;
+        return $this->participations;
     }
 
-    public function addRegistration(Registration $registration): static
+    public function addRegistration(Participation $participation): static
     {
-        if (!$this->registrations->contains($registration)) {
-            $this->registrations->add($registration);
-            $registration->setPlayers($this);
+        if (!$this->participations->contains($participation)) {
+            $this->participations->add($participation);
+            $participation->setPlayer($this);
         }
 
         return $this;
     }
 
-    public function removeRegistration(Registration $registration): static
+    public function removeRegistration(Participation $registration): static
     {
-        if ($this->registrations->removeElement($registration)) {
+        if ($this->participations->removeElement($registration)) {
             // set the owning side to null (unless already changed)
-            if ($registration->getPlayers() === $this) {
-                $registration->setPlayers(null);
+            if ($registration->getPlayer() === $this) {
+                $registration->setPlayer(null);
             }
         }
 

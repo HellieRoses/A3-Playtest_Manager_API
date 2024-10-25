@@ -18,7 +18,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
     ),
     new Delete()])]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_REGISTRATION', fields: ['playtest', 'player'])]
-class Registration
+class Participation
 {
     #[ORM\Id]
     #[ORM\ManyToOne(inversedBy: 'registrations')]
@@ -50,7 +50,7 @@ class Registration
         return $this->player;
     }
 
-    public function setPlayers(?Player $player): static
+    public function setPlayer(?Player $player): static
     {
         $this->player = $player;
 

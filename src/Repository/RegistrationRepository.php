@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\Registration;
+use App\Entity\Participation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Registration>
+ * @extends ServiceEntityRepository<Participation>
  */
 class RegistrationRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Registration::class);
+        parent::__construct($registry, Participation::class);
     }
 
     //    /**
-    //     * @return Registration[] Returns an array of Registration objects
+    //     * @return Participation[] Returns an array of Participation objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -31,7 +31,7 @@ class RegistrationRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Registration
+    //    public function findOneBySomeField($value): ?Participation
     //    {
     //        return $this->createQueryBuilder('r')
     //            ->andWhere('r.exampleField = :val')
