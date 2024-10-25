@@ -7,7 +7,7 @@ use App\Repository\RegistrationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RegistrationRepository::class)]
-#[ApiResource]
+#[ApiResource(operations: [])]
 class Registration
 {
     #[ORM\Id]
