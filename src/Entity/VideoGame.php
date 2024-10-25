@@ -28,6 +28,9 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: "is_granted('VIDEOGAME_CREATE',object)",
             validationContext: ["groups"=>["Default","video_game:create"]],
             processor: VideoGameProcessor::class
+        ),
+        new Delete(
+            security: "is_granted('VIDEOGAME_DELETE', object)"
         )
     ]
 )]
