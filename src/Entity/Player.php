@@ -57,8 +57,15 @@ class Player extends User
     #[Groups(["player:create", "player:update"])]
     private ?array $favoriteGames = null;
 
+    /**
+     * @var Collection<int, Registration>
+     */
+    #[ORM\OneToMany(targetEntity: Registration::class, mappedBy: 'players', orphanRemoval: true)]
+    private Collection $registrations;
+
     public function __construct()
     {
+        $this->registrations = new ArrayCollection();
     }
 
     public function getName(): ?string
@@ -104,6 +111,36 @@ class Player extends User
     public function setFavoriteGames(?array $favoriteGames): static
     {
         $this->favoriteGames = $favoriteGames;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Registration>
+     */
+    public function getRegistrations(): Collection
+    {
+        return $this->registrations;
+    }
+
+    public function addRegistration(Registration $registration): static
+    {
+        if (!$this->registrations->contains($registration)) {
+            $this->registrations->add($registration);
+            $registration->setPlayers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRegistration(Registration $registration): static
+    {
+        if ($this->registrations->removeElement($registration)) {
+            // set the owning side to null (unless already changed)
+            if ($registration->getPlayers() === $this) {
+                $registration->setPlayers(null);
+            }
+        }
 
         return $this;
     }
