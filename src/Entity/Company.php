@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Repository\CompanyRepository;
@@ -33,7 +34,8 @@ use Symfony\Component\Validator\Constraints as Assert;
         validationContext: ["groups" => ["Default", "company:update"]],
         processor: UserProcessor::class
     ), //TODO  path security with auth
-    new Delete() //TODO path security with auth
+    new Delete(), //TODO path security with auth
+    new GetCollection()
 ])]
 class Company extends User
 {
