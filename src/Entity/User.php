@@ -53,6 +53,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $plainPassword = null;
 
     #[UserPassword(groups: ["player:update","company:update"])]
+    #[Groups(["player:update","company:update"])]
     private ?string $currentPlainPassword = null; //FIXME
 
     #[ORM\Column]
