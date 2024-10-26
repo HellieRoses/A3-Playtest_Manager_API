@@ -25,12 +25,17 @@ use Symfony\Component\Validator\Constraints as Assert;
         new GetCollection(),
         new Post(
             denormalizationContext: ["groups"=>["Default","video_game:create"]],
-            security: "is_granted('VIDEOGAME_CREATE',object)",
+            //security: "is_granted('VIDEOGAME_CREATE',object)",
             validationContext: ["groups"=>["Default","video_game:create"]],
             processor: VideoGameProcessor::class
         ),
         new Delete(
             security: "is_granted('VIDEOGAME_DELETE', object)"
+        ),
+        new Patch(
+            denormalizationContext: ["groups"=>["Default","video_game:update"]],
+            security: "is_granted('VIDEOGAME_PATCH', object)",
+            validationContext: ["groups"=>["Default","video_game:update"]]
         )
     ]
 )]
@@ -42,17 +47,17 @@ class VideoGame
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(["video_game:create"])]
+    #[Groups(["video_game:create", "video_game:update"])]
     #[Assert\NotBlank(groups: ["video_game:create"])]
     #[Assert\NotNull(groups: ["video_game:create"])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(["video_game:create"])]
+    #[Groups(["video_game:create", "video_game:update"])]
     private ?string $type = null;
 
     #[ORM\Column(type: Types::SIMPLE_ARRAY)]
-    #[Groups(["video_game:create"])]
+    #[Groups(["video_game:create", "video_game:update"])]
     private ?array $support = [];
 
     /**
