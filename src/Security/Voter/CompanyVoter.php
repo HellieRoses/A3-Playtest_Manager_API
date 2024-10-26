@@ -39,8 +39,10 @@ final class CompanyVoter extends Voter
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
             case self::DELETE:
+                //Check if the user is a company and if the company is the same as the user connected or if the user connected is an admin
                 return ($user instanceof \App\Entity\Company && ($subject->getId() == $user->getId() || $this->security->isGranted('ROLE_ADMIN')));
             case self::MODIFY:
+                //Check if the user is a company and if the company is the same as the user connected
                 return ($user instanceof \App\Entity\Company && $subject->getId() == $user->getId());
         }
 

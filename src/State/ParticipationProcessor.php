@@ -24,6 +24,7 @@ class ParticipationProcessor implements ProcessorInterface
         foreach ($this->security->getUser()->getParticipations() as $participation) {
             assert($data->getPlaytest()->getEnd() <= $participation->getPlaytest()->getBegin() || $data->getPlaytest()->getBegin() >= $participation->getPlaytest()->getEnd(), "The player already has a playtest on this date");
         }
+        // Define the player connected as the player of the participation
         $data->setPlayer($this->security->getUser());
         // Handle the state
         return $this->persistProcessor->process($data, $operation, $uriVariables, $context);

@@ -32,9 +32,11 @@ final class PlayTestVoter extends Voter
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
             case self::CREATE:
-                 return ($user instanceof Company);
-             case self::MODIFY:
-                 return ($user instanceof Company && $subject->getCompany() == $user);
+                //Check if user is a company
+                return ($user instanceof Company);
+            case self::MODIFY:
+                //Check if user is a company and the company of the playtest is the same as the user connected
+                return ($user instanceof Company && $subject->getCompany() == $user);
         }
 
         return false;
