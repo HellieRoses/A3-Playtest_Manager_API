@@ -7,16 +7,21 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Post;
 use App\Repository\RegistrationRepository;
+use App\State\ParticipationProcessor;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: RegistrationRepository::class)]
 #[ApiResource(operations: [
     new Post(
-    denormalizationContext: ['groups' => ['registration:create']],
-    validationContext: ["groups" => ["Default", "registration:create"]],
+        uriTemplate: "/playtests/participate",
+        denormalizationContext: ['groups' => ['registration:create']],
+        security: "is_granted('PARTICPATION_CREATE',object)",
+        validationContext: ["groups" => ["Default", "registration:create"]],
+        processor: ParticipationProcessor::class,
     ),
-    new Delete()])]
+    new Delete()
+])]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_REGISTRATION', fields: ['playtest', 'player'])]
 class Participation
 {
@@ -24,13 +29,13 @@ class Participation
     #[ORM\ManyToOne(inversedBy: 'registrations')]
     #[ORM\JoinColumn(nullable: false)]
     #[ApiProperty(readable: true, writable: true, required: true)]
-    private Playtest $playtest ;
+    private Playtest $playtest;
 
     #[ORM\Id]
     #[ORM\ManyToOne(inversedBy: 'registrations')]
     #[ORM\JoinColumn(nullable: false)]
     #[ApiProperty(readable: true, writable: false)]
-    private Player $player ;
+    private Player $player;
 
 
     public function getPlaytest(): ?Playtest
