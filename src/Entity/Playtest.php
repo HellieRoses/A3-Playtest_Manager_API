@@ -24,7 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     operations: [
         new Post(
             denormalizationContext: ["groups"=>["Default","playtest:create"]],
-            //security: "is_granted('PLAYTEST_CREATE',object)",
+            security: "is_granted('PLAYTEST_CREATE',object)",
             validationContext: ["groups"=>["Default","playtest:create"]],
             processor: PlayTestProcessor::class
         ),

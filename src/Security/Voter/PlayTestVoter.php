@@ -17,7 +17,7 @@ final class PlayTestVoter extends Voter
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
         return in_array($attribute, [self::CREATE, self::MODIFY])
-            && ($subject instanceof \App\Entity\PlayTest) || is_null($subject);
+            && ($subject instanceof \App\Entity\Playtest) || is_null($subject);
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
@@ -32,7 +32,7 @@ final class PlayTestVoter extends Voter
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
             case self::CREATE:
-                 return ($user instanceof Company && $subject->getVideoGame()->getCompany() == $user);
+                 return ($user instanceof Company);
              case self::MODIFY:
                  return ($user instanceof Company && $subject->getCompany() == $user);
         }
