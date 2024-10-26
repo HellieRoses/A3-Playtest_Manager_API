@@ -27,12 +27,17 @@ use Symfony\Component\Serializer\Attribute\Groups;
     new Post(
         denormalizationContext: ["groups" => ["player:create"]],
         validationContext: ["groups" => ["Default", "player:create"]],
-        processor: UserProcessor::class),
+        processor: UserProcessor::class
+    ),
     new Patch(
         denormalizationContext: ["groups" => ["player:update"]],
+        security: "is_granted('PLAYER_MODIFY',object)",
         validationContext: ["groups" => ["Default", "player:update"]],
-        processor: UserProcessor::class), //TODO path security with auth
-    new Delete(), //TODO path security with auth + à l'avenir devra supprimer son inscription aux events
+        processor: UserProcessor::class,
+    ),
+    new Delete(
+        security: "is_granted('PLAYER_DELETE',object)"
+    ),
     new GetCollection()
 ])]
 class Player extends User
@@ -62,7 +67,7 @@ class Player extends User
     /**
      * @var Collection<int, Participation>
      */
-    #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'players', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'player', orphanRemoval: true)]
     private Collection $participations;
 
     public function __construct()
@@ -146,6 +151,4 @@ class Player extends User
 
         return $this;
     }
-
-
 }
