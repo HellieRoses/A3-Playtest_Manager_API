@@ -4,13 +4,16 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Repository\VideoGameRepository;
 use App\State\VideoGameProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -22,9 +25,17 @@ use Symfony\Component\Validator\Constraints as Assert;
         new GetCollection(),
         new Post(
             denormalizationContext: ["groups"=>["Default","video_game:create"]],
-            security: "is_granted('VIDEOGAME_CREATE',object)",
+            security: "is_granted('VIDEOGAME_CREATE', object)",
             validationContext: ["groups"=>["Default","video_game:create"]],
             processor: VideoGameProcessor::class
+        ),
+        new Delete(
+            security: "is_granted('VIDEOGAME_MODIFY', object)"
+        ),
+        new Patch(
+            denormalizationContext: ["groups"=>["Default","video_game:update"]],
+            security: "is_granted('VIDEOGAME_MODIFY', object)",
+            validationContext: ["groups"=>["Default","video_game:update"]]
         )
     ]
 )]
@@ -36,18 +47,18 @@ class VideoGame
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(["video_game:create"])]
+    #[Groups(["video_game:create", "video_game:update"])]
     #[Assert\NotBlank(groups: ["video_game:create"])]
     #[Assert\NotNull(groups: ["video_game:create"])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(["video_game:create"])]
+    #[Groups(["video_game:create", "video_game:update"])]
     private ?string $type = null;
 
-    #[ORM\Column(length: 255)]
-    #[Groups(["video_game:create"])]
-    private ?string $support = null;
+    #[ORM\Column(type: Types::SIMPLE_ARRAY)]
+    #[Groups(["video_game:create", "video_game:update"])]
+    private ?array $support = [];
 
     /**
      * @var Collection<int, Playtest>
@@ -94,12 +105,12 @@ class VideoGame
         return $this;
     }
 
-    public function getSupport(): ?string
+    public function getSupport(): ?array
     {
         return $this->support;
     }
 
-    public function setSupport(string $support): static
+    public function setSupport(array $support): static
     {
         $this->support = $support;
 
