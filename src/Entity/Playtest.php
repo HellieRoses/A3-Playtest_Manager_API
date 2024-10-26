@@ -24,7 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     operations: [
         new Post(
             denormalizationContext: ["groups"=>["Default","playtest:create"]],
-            //security: "is_granted('PLAYTEST_CREATE',object)",
+            security: "is_granted('PLAYTEST_CREATE',object)",
             validationContext: ["groups"=>["Default","playtest:create"]],
             processor: PlayTestProcessor::class
         ),
@@ -97,7 +97,7 @@ class Playtest
     /**
      * @var Collection<int, Participation>
      */
-    #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'playtests', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'playtest', orphanRemoval: true)]
     private Collection $participants;
 
     public function __construct()
