@@ -34,14 +34,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotNull(groups: ["player:create","company:create"])]
     #[Assert\NotBlank(groups: ["player:create","company:create"])]
     #[Assert\Length(min: 4, max: 20, minMessage: 'Login too short', maxMessage: "Login too long")]
-    #[Groups(["player:create","company:create"])]
+    #[Groups(["player:create","company:create","player:read","company:read"])]
     private ?string $login = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotNull(groups: ["player:create","company:create"])]
     #[Assert\NotBlank(groups: ["player:create","company:create"])]
     #[Assert\Email(message: 'Email not valid')]
-    #[Groups(["player:create","company:create","player:update","company:update"])]
+    #[Groups(["player:create","company:create","player:update","company:update","player:read","company:read"])]
     private ?string $email = null;
 
     #[Assert\NotBlank(groups: ["player:create","company:create"])]
@@ -54,13 +54,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[UserPassword(groups: ["player:update","company:update"])]
     #[Groups(["player:update","company:update"])]
-    private ?string $currentPlainPassword = null; //FIXME
+    private ?string $currentPlainPassword = null;
 
     #[ORM\Column]
     #[ApiProperty(readable: false,writable: false)]
     private ?string $password = null;
 
     #[ORM\Column]
+    #[Groups(["player:read","company:read"])]
     private array $roles = [];
 
     public function getId(): ?int

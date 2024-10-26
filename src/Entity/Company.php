@@ -35,31 +35,32 @@ use Symfony\Component\Validator\Constraints as Assert;
         processor: UserProcessor::class
     ), //TODO  path security with auth
     new Delete(), //TODO path security with auth
-    new GetCollection()
-])]
+    new GetCollection(),
+    ],normalizationContext: ["groups" => ["company:read"]],
+)]
 class Company extends User
 {
 
     #[ORM\Column(length: 255)]
     #[Assert\NotNull(groups: ["company:create"])]
     #[Assert\NotBlank(groups: ["company:create"])]
-    #[Groups(["company:create","company:update"])]
+    #[Groups(["company:create", "company:update", "playtest:read","video_game:read","company:read"])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(["company:create", "company:update"])]
+    #[Groups(["company:create", "company:update", "playtest:read","video_game:read","company:read"])]
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotNull(groups: ["company:create"])]
     #[Assert\NotBlank(groups: ["company:create"])]
-    #[Groups(["company:create","company:update"])]
+    #[Groups(["company:create", "company:update","video_game:read","company:read"])]
     private ?string $adress = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotNull(groups: ["company:create"])]
     #[Assert\NotBlank(groups: ["company:create"])]
-    #[Groups(["company:create","company:update"])]
+    #[Groups(["company:create", "company:update", "playtest:read","video_game:read","company:read"])]
     private ?string $contact = null;
 
     /**

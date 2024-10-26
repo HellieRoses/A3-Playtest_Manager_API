@@ -45,7 +45,7 @@ use Symfony\Component\Validator\Constraints as Assert;
                 )
             ]
         )
-    ]
+    ],normalizationContext: ["groups"=>["Default","playtest:read"]],
 )]
 class Playtest
 {
@@ -58,37 +58,38 @@ class Playtest
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotBlank(groups: ["playtest:create"])]
     #[Assert\NotNull(groups: ["playtest:create"])]
-    #[Groups(["playtest:create"])]
+    #[Groups(["playtest:create", "playtest:read"])]
     private ?VideoGame $videoGame = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Assert\Type("\DateTimeInterface",groups: ["playtest:create","playtest:update"])]
-    #[Groups(["playtest:create","playtest:update"])]
+    #[Groups(["playtest:create","playtest:update", "playtest:read"])]
     private ?\DateTimeInterface $begin = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Assert\Type("\DateTimeInterface",groups: ["playtest:create","playtest:update"])]
     #[Assert\GreaterThan(propertyPath: "begin")]
-    #[Groups(["playtest:create","playtest:update"])]
+    #[Groups(["playtest:create","playtest:update", "playtest:read"])]
     private ?\DateTimeInterface $end = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(["playtest:create","playtest:update"])]
+    #[Groups(["playtest:create","playtest:update", "playtest:read"])]
     private ?string $adress = null;
 
     #[ORM\ManyToOne(inversedBy: 'playtests')]
     #[ORM\JoinColumn(nullable: false)]
     #[ApiProperty(writable: false)]
+    #[Groups(["playtest:read"])]
     private ?Company $company = null;
 
     #[ORM\Column]
     #[Assert\NotBlank(groups: ["playtest:create"])]
     #[Assert\NotNull(groups: ["playtest:create"])]
-    #[Groups(["playtest:create"])]
+    #[Groups(["playtest:create", "playtest:read"])]
     private ?bool $visibility = null;
 
     #[ORM\Column]
-    #[Groups(["playtest:create","playtest:update"])]
+    #[Groups(["playtest:create","playtest:update", "playtest:read"])]
     private ?int $nbMaxPlayer = null;
 
     public function getId(): ?int
