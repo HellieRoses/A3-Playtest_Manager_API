@@ -71,7 +71,6 @@ class Player extends User
      * @var Collection<int, Participation>
      */
     #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'player',cascade:['persist'], orphanRemoval: true)]
-    #[Groups(["player:read"])]
     private Collection $participations;
 
     public function __construct()

@@ -98,7 +98,6 @@ class Playtest
      * @var Collection<int, Participation>
      */
     #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'playtest', cascade: ['persist'],orphanRemoval: true)]
-    #[Groups(['playtest:read'])]
     private Collection $participants;
 
     public function __construct()
