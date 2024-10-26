@@ -16,7 +16,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
     new Post(
         uriTemplate: "/playtests/participate",
         denormalizationContext: ['groups' => ['registration:create']],
-        security: "is_granted('PARTICPATION_CREATE',object)",
+        security: "is_granted('PARTICIPATION_CREATE',object)",
         validationContext: ["groups" => ["Default", "registration:create"]],
         processor: ParticipationProcessor::class,
     ),
@@ -26,13 +26,13 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class Participation
 {
     #[ORM\Id]
-    #[ORM\ManyToOne(inversedBy: 'registrations')]
+    #[ORM\ManyToOne(inversedBy: 'participants')]
     #[ORM\JoinColumn(nullable: false)]
     #[ApiProperty(readable: true, writable: true, required: true)]
     private Playtest $playtest;
 
     #[ORM\Id]
-    #[ORM\ManyToOne(inversedBy: 'registrations')]
+    #[ORM\ManyToOne(inversedBy: 'participations')]
     #[ORM\JoinColumn(nullable: false)]
     #[ApiProperty(readable: true, writable: false)]
     private Player $player;

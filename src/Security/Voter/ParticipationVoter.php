@@ -16,7 +16,7 @@ final class ParticipationVoter extends Voter
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
         return in_array($attribute, [self::CREATE])
-            && $subject instanceof \App\Entity\Participation;
+            && ($subject instanceof \App\Entity\Participation) || is_null($subject);
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool

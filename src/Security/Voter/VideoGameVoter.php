@@ -18,7 +18,7 @@ final class VideoGameVoter extends Voter
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
         return in_array($attribute, [self::CREATE, self::MODIFY])
-            && $subject instanceof \App\Entity\VideoGame;
+            && ($subject instanceof \App\Entity\VideoGame) || is_null($subject);
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
