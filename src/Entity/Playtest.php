@@ -60,22 +60,22 @@ class Playtest
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotBlank(groups: ["playtest:create"])]
     #[Assert\NotNull(groups: ["playtest:create"])]
-    #[Groups(["playtest:create", "playtest:read"])]
+    #[Groups(["playtest:create", "playtest:read","participation:playtest:read"])]
     private ?VideoGame $videoGame = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Assert\Type("\DateTimeInterface",groups: ["playtest:create","playtest:update"])]
-    #[Groups(["playtest:create","playtest:update", "playtest:read"])]
+    #[Groups(["playtest:create","playtest:update", "playtest:read","participation:playtest:read"])]
     private ?\DateTimeInterface $begin = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Assert\Type("\DateTimeInterface",groups: ["playtest:create","playtest:update"])]
     #[Assert\GreaterThan(propertyPath: "begin")]
-    #[Groups(["playtest:create","playtest:update", "playtest:read"])]
+    #[Groups(["playtest:create","playtest:update", "playtest:read","participation:playtest:read"])]
     private ?\DateTimeInterface $end = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(["playtest:create","playtest:update", "playtest:read"])]
+    #[Groups(["playtest:create","playtest:update", "playtest:read","participation:playtest:read"])]
     private ?string $adress = null;
 
     #[ORM\ManyToOne(inversedBy: 'playtests')]

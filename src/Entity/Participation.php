@@ -5,6 +5,8 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Post;
 use App\Repository\ParticipationRepository;
 use App\State\ParticipationProcessor;
@@ -22,6 +24,26 @@ use Symfony\Component\Validator\Constraints as Assert;
             processor: ParticipationProcessor::class,
         ),
         new Delete(),
+        new GetCollection(
+            uriTemplate: '/playtests/{idPlaytest}/players',
+            uriVariables: [
+                "idPlaytest" => new Link(
+                    fromProperty: 'participants',
+                    fromClass: Playtest::class
+                )
+            ],
+            normalizationContext: ['groups' => ['participation:player:read']]
+        ),
+        new GetCollection(
+            uriTemplate: '/players/{idPlayer}/playtests',
+            uriVariables: [
+                "idPlayer" => new Link(
+                    fromProperty: 'participations',
+                    fromClass: Player::class
+                )
+            ],
+            normalizationContext: ['groups' => ["participation:playtest:read"]]
+        )
     ],
     normalizationContext: ["groups" => ["participation:read"]],
     denormalizationContext: ["groups" => ["participation:create"]],
@@ -43,13 +65,13 @@ class Participation
     #[Assert\NotBlank(groups:["participation:create"])]
     #[Assert\NotNull(groups:["participation:create"])]
     #[ApiProperty(readable: true, writable: true, required: true)]
-    #[Groups(groups: ["participation:read", "participation:create","player:read"])]
+    #[Groups(groups: ["participation:read", "participation:create","player:read","participation:playtest:read"])]
     private Playtest $playtest;
 
     #[ORM\ManyToOne(inversedBy: 'participations')]
     #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
     #[ApiProperty(readable: true, writable: false)]
-    #[Groups(groups: ["participation:read", "participation:create","playtest:read"])]
+    #[Groups(groups: ["participation:read", "participation:create","playtest:read",'participation:player:read'])]
     private Player $player;
 
 
