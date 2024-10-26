@@ -34,8 +34,10 @@ final class VideoGameVoter extends Voter
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
             case self::CREATE:
+                //Check if the user is a company
                 return ($user instanceof Company);
             case self::MODIFY:
+                //Check if the user is a company and if the videogame company is the same as the user connected
                 return ($user instanceof Company && $user->getId() == $subject->getCompany()->getId());
             case self::DELETE:
                 return ($user instanceof Company && $user->getId() == $subject->getCompany()->getId()) || in_array("ROLE_ADMIN",$user->getRoles());

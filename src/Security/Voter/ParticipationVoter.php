@@ -31,6 +31,7 @@ final class ParticipationVoter extends Voter
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
             case self::CREATE:
+                //Check if the user is a player
                 return ($user instanceof Player);
         }
 

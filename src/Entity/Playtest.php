@@ -19,24 +19,34 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * Class event of our API.
+ */
 #[ORM\Entity(repositoryClass: PlaytestRepository::class)]
 #[ApiResource(
     operations: [
         new Post(
+            description: "Creates a Playtest",
             denormalizationContext: ["groups"=>["Default","playtest:create"]],
             security: "is_granted('PLAYTEST_CREATE',object)",
             validationContext: ["groups"=>["Default","playtest:create"]],
             processor: PlayTestProcessor::class
         ),
         new Patch(
+            description: "Updates a Playtest",
             denormalizationContext: ["groups"=>["Default","playtest:update"]],
             security: "is_granted('PLAYTEST_MODIFY',object)",
             validationContext: ["groups"=>["Default","playtest:update"]],
         ),
-        new Get(),
-        new GetCollection(),
+        new Get(
+            description: "Retrieves a Playtest",
+        ),
+        new GetCollection(
+            description: "Retrieves all Playtests",
+        ),
         new Delete(
             security: "is_granted('PLAYTEST_DELETE',object))",
+            description: "Deletes a Playtest"
         ),
         new GetCollection(
             uriTemplate: '/companies/{idCompany}/playtests',
@@ -45,7 +55,8 @@ use Symfony\Component\Validator\Constraints as Assert;
                     fromProperty: "playtests",
                     fromClass: Company::class
                 )
-            ]
+            ],
+            description: "Retrieves all Company's Playtests"
         )
     ],normalizationContext: ["groups"=>["Default","playtest:read"]],
 )]
@@ -95,6 +106,7 @@ class Playtest
     private ?int $nbMaxPlayer = null;
 
     /**
+     * List of participation to the playtest
      * @var Collection<int, Participation>
      */
     #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'playtest', cascade: ['persist'],orphanRemoval: true)]
@@ -105,16 +117,29 @@ class Playtest
         $this->participants = new ArrayCollection();
     }
 
+    /**
+     * Get id of playtest
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * Get video game of playtest
+     * @return VideoGame|null
+     */
     public function getVideoGame(): ?VideoGame
     {
         return $this->videoGame;
     }
 
+    /**
+     * Set Video game of playtest
+     * @param VideoGame|null $videoGame
+     * @return $this
+     */
     public function setVideoGame(?VideoGame $videoGame): static
     {
         $this->videoGame = $videoGame;
@@ -122,11 +147,20 @@ class Playtest
         return $this;
     }
 
+    /**
+     * Get begin date of playtest
+     * @return \DateTimeInterface|null
+     */
     public function getBegin(): ?\DateTimeInterface
     {
         return $this->begin;
     }
 
+    /**
+     * Set begin date of playtest
+     * @param \DateTimeInterface $begin
+     * @return $this
+     */
     public function setBegin(\DateTimeInterface $begin): static
     {
         $this->begin = $begin;
@@ -134,11 +168,20 @@ class Playtest
         return $this;
     }
 
+    /**
+     * Get end date of playtest
+     * @return \DateTimeInterface|null
+     */
     public function getEnd(): ?\DateTimeInterface
     {
         return $this->end;
     }
 
+    /**
+     * Set end date of playtest
+     * @param \DateTimeInterface $end
+     * @return $this
+     */
     public function setEnd(\DateTimeInterface $end): static
     {
         $this->end = $end;
@@ -146,11 +189,20 @@ class Playtest
         return $this;
     }
 
+    /**
+     * Get adress of playtest
+     * @return string|null
+     */
     public function getAdress(): ?string
     {
         return $this->adress;
     }
 
+    /**
+     * Set adress of playtest
+     * @param string $adress
+     * @return $this
+     */
     public function setAdress(string $adress): static
     {
         $this->adress = $adress;
@@ -158,11 +210,20 @@ class Playtest
         return $this;
     }
 
+    /**
+     * Get company of playtest
+     * @return Company|null
+     */
     public function getCompany(): ?Company
     {
         return $this->company;
     }
 
+    /**
+     * Set company of playtest
+     * @param Company|null $company
+     * @return $this
+     */
     public function setCompany(?Company $company): static
     {
         $this->company = $company;
@@ -170,11 +231,20 @@ class Playtest
         return $this;
     }
 
+    /**
+     * Get if playtest is marked visible or not
+     * @return bool|null
+     */
     public function isVisibility(): ?bool
     {
         return $this->visibility;
     }
 
+    /**
+     * Set visibility of playtest
+     * @param bool $visibility
+     * @return $this
+     */
     public function setVisibility(bool $visibility): static
     {
         $this->visibility = $visibility;
@@ -182,11 +252,20 @@ class Playtest
         return $this;
     }
 
+    /**
+     * Get max number of players allowed in playtest
+     * @return int|null
+     */
     public function getNbMaxPlayer(): ?int
     {
         return $this->nbMaxPlayer;
     }
 
+    /**
+     * Set max number of players allowed in playtest
+     * @param int $nbMaxPlayer
+     * @return $this
+     */
     public function setNbMaxPlayer(int $nbMaxPlayer): static
     {
         $this->nbMaxPlayer = $nbMaxPlayer;
@@ -195,6 +274,7 @@ class Playtest
     }
 
     /**
+     * Get participations of playtest
      * @return Collection<int, Participation>
      */
     public function getParticipants(): Collection
@@ -202,6 +282,11 @@ class Playtest
         return $this->participants;
     }
 
+    /**
+     * Add participation to playtest
+     * @param Participation $participation
+     * @return $this
+     */
     public function addParticipation(Participation $participation): static
     {
         if (!$this->participants->contains($participation)) {
@@ -212,6 +297,11 @@ class Playtest
         return $this;
     }
 
+    /**
+     * Remove participation from playtest
+     * @param Participation $participation
+     * @return $this
+     */
     public function removeParticipation(Participation $participation): static
     {
         if ($this->participants->removeElement($participation)) {

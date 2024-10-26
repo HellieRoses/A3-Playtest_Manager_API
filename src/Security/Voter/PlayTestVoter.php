@@ -33,12 +33,14 @@ final class PlayTestVoter extends Voter
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
             case self::CREATE:
-                 return ($user instanceof Company && $subject->getVideoGame()->getCompany() == $user);
+                //Check if user is a company
+                return ($user instanceof Company);
              case self::MODIFY:
-                 return ($user instanceof Company && $subject->getCompany() == $user);
+                //Check if user is a company and the company of the playtest is the same as the user connected
+                return ($user instanceof Company && $subject->getCompany() == $user);
             case self::DELETE:
+                //Check if user is a company and is the company of the playtest or if the tuser is admin
                 return ($user instanceof Company && $subject->getCompany() == $user) || in_array("ROLE_ADMIN",$user->getRoles());
-
         }
 
         return false;
