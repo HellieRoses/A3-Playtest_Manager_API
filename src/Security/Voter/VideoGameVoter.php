@@ -37,7 +37,7 @@ final class VideoGameVoter extends Voter
                 return ($user instanceof Company);
             case self::DELETE:
             case self::PATCH:
-                return ($user instanceof Company && $user->getId() === $subject->getCompany->getId());
+                return ($user instanceof Company && $user->getId() == $subject->getCompany()->getId());
         }
 
         return false;

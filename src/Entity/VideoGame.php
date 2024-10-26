@@ -25,7 +25,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         new GetCollection(),
         new Post(
             denormalizationContext: ["groups"=>["Default","video_game:create"]],
-            //security: "is_granted('VIDEOGAME_CREATE',object)",
+            security: "is_granted('VIDEOGAME_CREATE', object)",
             validationContext: ["groups"=>["Default","video_game:create"]],
             processor: VideoGameProcessor::class
         ),
