@@ -12,6 +12,8 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Repository\PlaytestRepository;
 use App\State\PlayTestProcessor;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -90,6 +92,17 @@ class Playtest
     #[ORM\Column]
     #[Groups(["playtest:create","playtest:update"])]
     private ?int $nbMaxPlayer = null;
+
+    /**
+     * @var Collection<int, Participation>
+     */
+    #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'playtests', orphanRemoval: true)]
+    private Collection $participants;
+
+    public function __construct()
+    {
+        $this->participants = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -176,6 +189,36 @@ class Playtest
     public function setNbMaxPlayer(int $nbMaxPlayer): static
     {
         $this->nbMaxPlayer = $nbMaxPlayer;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Participation>
+     */
+    public function getParticipants(): Collection
+    {
+        return $this->participants;
+    }
+
+    public function addRegistration(Participation $registration): static
+    {
+        if (!$this->participants->contains($registration)) {
+            $this->participants->add($registration);
+            $registration->setPlaytest($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRegistration(Participation $registration): static
+    {
+        if ($this->participants->removeElement($registration)) {
+            // set the owning side to null (unless already changed)
+            if ($registration->getPlaytest() === $this) {
+                $registration->setPlaytest(null);
+            }
+        }
 
         return $this;
     }
