@@ -10,11 +10,12 @@ https://gitlabinfo.iutmontp.univ-montp2.fr/groupe-projet-web-s5/playtest-manager
 
 Pour utiliser pleinenement l'API, il faut d'abord s'authentifier. Pour cela, il faudra s'inscrire en tant que Joueur ou Studio puis se connecter. Une fois connecté, l'utilisateur pourra modifier ses informations ansi que supprimer son compte.
 <p>
-Un joueur connecté, 
+Un joueur connecté peut s'inscrire à une session de jeu ainsi que se désinscrire de celle-ci.
 </p>
 <p>
-Un studio connecté, 
+Un studio connecté peut créer un Jeu Vidéo, le modifier ainsi que le supprimer. Il peut également créer une Session de Jeu, le modifier ainsi que le supprimer.
 </p>
+
 
 ### Les routes
 
@@ -60,9 +61,9 @@ Un studio connecté,
         - POST : Inscrire le joueur connecté à une Session de jeu
 ## Investissement du groupe
 
-- Clément HAMEL : 
-- Maëlys BOISSEZON : 
-- Romain TOUZÉ : 
+- Clément HAMEL : CRUD VideoGames 
+- Maëlys BOISSEZON : CRUD Utilisateurs (Company et Player), connexion utilisateur, Inscription d'un utilisateur à un événement
+- Romain TOUZÉ : CRUD Evenement (Playtest), ROLE_ADMIN, normalizationsContext, 
 
 ## Indications supplémentaires
 
