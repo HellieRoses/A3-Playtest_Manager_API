@@ -23,7 +23,10 @@ use Symfony\Component\Validator\Constraints as Assert;
             validationContext: ["groups" => ["Default", "participation:create"]],
             processor: ParticipationProcessor::class,
         ),
-        new Delete(),
+        new Delete(
+            uriTemplate: "/playtests/participate",
+            security: "is_granted('PARTICIPATION_DELETE',object)",
+        ),
         new GetCollection(
             uriTemplate: '/playtests/{idPlaytest}/players',
             uriVariables: [
@@ -49,6 +52,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     denormalizationContext: ["groups" => ["participation:create"]],
     validationContext: ["groups" => ["Default", "participation:create"]],
 )]
+
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_PARTICIPATION', fields: ['playtest', 'player'])]
 #[UniqueEntity(fields: ['playtest', 'player'], message: "A plyer can not participate several times at the same playtest")]
 

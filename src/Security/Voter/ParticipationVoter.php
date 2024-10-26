@@ -10,12 +10,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
 final class ParticipationVoter extends Voter
 {
     public const CREATE = 'PARTICIPATION_CREATE';
+    public const DELETE = 'PARTICIPATION_DELETE';
 
     protected function supports(string $attribute, mixed $subject): bool
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, [self::CREATE])
+        return in_array($attribute, [self::CREATE, self::DELETE])
             && ($subject instanceof \App\Entity\Participation) || is_null($subject);
     }
 
@@ -32,6 +33,8 @@ final class ParticipationVoter extends Voter
         switch ($attribute) {
             case self::CREATE:
                 return ($user instanceof Player);
+            case self::DELETE:
+                return ($user instanceof Player && $subject->getPlayer() === $user);
         }
 
         return false;
