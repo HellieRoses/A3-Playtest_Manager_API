@@ -97,7 +97,8 @@ class Playtest
     /**
      * @var Collection<int, Participation>
      */
-    #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'playtest', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'playtest', cascade: ['persist'],orphanRemoval: true)]
+    #[Groups(['playtest:read'])]
     private Collection $participants;
 
     public function __construct()
@@ -202,22 +203,22 @@ class Playtest
         return $this->participants;
     }
 
-    public function addRegistration(Participation $registration): static
+    public function addParticipation(Participation $participation): static
     {
-        if (!$this->participants->contains($registration)) {
-            $this->participants->add($registration);
-            $registration->setPlaytest($this);
+        if (!$this->participants->contains($participation)) {
+            $this->participants->add($participation);
+            $participation->setPlaytest($this);
         }
 
         return $this;
     }
 
-    public function removeRegistration(Participation $registration): static
+    public function removeParticipation(Participation $participation): static
     {
-        if ($this->participants->removeElement($registration)) {
+        if ($this->participants->removeElement($participation)) {
             // set the owning side to null (unless already changed)
-            if ($registration->getPlaytest() === $this) {
-                $registration->setPlaytest(null);
+            if ($participation->getPlaytest() === $this) {
+                $participation->setPlaytest(null);
             }
         }
 

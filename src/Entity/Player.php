@@ -68,7 +68,8 @@ class Player extends User
     /**
      * @var Collection<int, Participation>
      */
-    #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'player', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'player',cascade:['persist'], orphanRemoval: true)]
+    #[Groups(["player:read"])]
     private Collection $participations;
 
     public function __construct()
@@ -131,7 +132,7 @@ class Player extends User
         return $this->participations;
     }
 
-    public function addRegistration(Participation $participation): static
+    public function addParticipation(Participation $participation): static
     {
         if (!$this->participations->contains($participation)) {
             $this->participations->add($participation);
@@ -141,12 +142,12 @@ class Player extends User
         return $this;
     }
 
-    public function removeRegistration(Participation $registration): static
+    public function removeParticipation(Participation $participation): static
     {
-        if ($this->participations->removeElement($registration)) {
+        if ($this->participations->removeElement($participation)) {
             // set the owning side to null (unless already changed)
-            if ($registration->getPlayer() === $this) {
-                $registration->setPlayer(null);
+            if ($participation->getPlayer() === $this) {
+                $participation->setPlayer(null);
             }
         }
 
