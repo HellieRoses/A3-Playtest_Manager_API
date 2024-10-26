@@ -62,7 +62,7 @@ Un studio connecté peut créer un Jeu Vidéo, le modifier ainsi que le supprime
 ## Investissement du groupe
 
 - Clément HAMEL : CRUD VideoGames 
-- Maëlys BOISSEZON : CRUD Utilisateurs (Company et Player), connexion utilisateur, Inscription d'un utilisateur à un événement
+- Maëlys BOISSEZON : CRUD Utilisateurs (Company et Player) avec héritage, connexion utilisateur, Inscription d'un utilisateur à un événement
 - Romain TOUZÉ : CRUD Evenement (Playtest), ROLE_ADMIN, normalizationsContext, 
 
 ## Indications supplémentaires
