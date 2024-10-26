@@ -7,6 +7,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Repository\VideoGameRepository;
@@ -36,8 +37,17 @@ use Symfony\Component\Validator\Constraints as Assert;
             denormalizationContext: ["groups"=>["Default","video_game:update"]],
             security: "is_granted('VIDEOGAME_MODIFY', object)",
             validationContext: ["groups"=>["Default","video_game:update"]]
+        ),
+        new GetCollection(
+            uriTemplate: "/companies/{idCompany}/video_games",
+            uriVariables: [
+                "idCompany"=>new Link(
+                    fromProperty: "videoGames",
+                    fromClass: Company::class,
+                ),
+            ],
         )
-    ]
+    ],normalizationContext: ["groups"=>["Default","video_game:read"]],
 )]
 class VideoGame
 {
@@ -47,17 +57,17 @@ class VideoGame
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(["video_game:create", "video_game:update"])]
+    #[Groups(["video_game:create", "video_game:update", "playtest:read","video_game:read"])]
     #[Assert\NotBlank(groups: ["video_game:create"])]
     #[Assert\NotNull(groups: ["video_game:create"])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(["video_game:create", "video_game:update"])]
+    #[Groups(["video_game:create", "video_game:update", "playtest:read","video_game:read"])]
     private ?string $type = null;
 
     #[ORM\Column(type: Types::SIMPLE_ARRAY)]
-    #[Groups(["video_game:create", "video_game:update"])]
+    #[Groups(["video_game:create", "video_game:update", "playtest:read","video_game:read"])]
     private ?array $support = [];
 
     /**
@@ -69,6 +79,7 @@ class VideoGame
     #[ORM\ManyToOne(inversedBy: 'videoGames')]
     #[ORM\JoinColumn(nullable: false)]
     #[ApiProperty(writable: false)]
+    #[Groups(["video_game:read"])]
     private ?Company $company = null;
 
     public function __construct()
