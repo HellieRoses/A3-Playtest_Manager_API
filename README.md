@@ -23,6 +23,7 @@ Un studio connecté,
         - POST : Connecter un Utilisateur (Studio ou Joueur)
 - Studio (Company)
     - **/api/companies**
+        - GET : Récupérer les informations de tous les Studios
         - POST : Créer un Studio
     - **/api/companies/{id}**
         - GET : Récupérer les informations d'un Studio
@@ -31,6 +32,7 @@ Un studio connecté,
 - Joueur (Player)
     - **/api/players**
         - POST : Créer un Joueur
+        - GET : Récupérer les informations de tous les Joueurs
     - **/api/players/{id}**
         - GET : Récupérer les informations d'un Joueur
         - PATCH : Mettre à jour un Joueur
@@ -51,7 +53,11 @@ Un studio connecté,
         - POST : Créer un Jeu Vidéo
     - **/api/video_games/{id}**
         - GET : Récupérer les informations d'un Jeu Vidéo
-
+        - PATCH : Mettre à jour un Jeu Vidéo
+        - DELETE : Supprimer un Jeu Vidéo
+- Participation
+    - **/api/playtests/participate**
+        - POST : Inscrire le joueur connecté à une Session de jeu
 ## Investissement du groupe
 
 - Clément HAMEL : 
