@@ -34,29 +34,30 @@ use Symfony\Component\Serializer\Attribute\Groups;
         processor: UserProcessor::class), //TODO path security with auth
     new Delete(), //TODO path security with auth + à l'avenir devra supprimer son inscription aux events
     new GetCollection()
-])]
+    ],normalizationContext: ["groups" => ["player:read"]],
+)]
 class Player extends User
 {
     #[ORM\Column(length: 255)]
     #[Assert\NotNull(groups: ["player:create"])]
     #[Assert\NotBlank(groups: ["player:create"])]
-    #[Groups(["player:create", "company:update"])]
+    #[Groups(["player:create", "player:update","player:read"])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotNull(groups: ["player:create"])]
     #[Assert\NotBlank(groups: ["player:create"])]
-    #[Groups(["player:create", "player:update"])]
+    #[Groups(["player:create", "player:update","player:read"])]
     private ?string $firstName = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Assert\NotNull(groups: ["player:create"])]
     #[Assert\NotBlank(groups: ["player:create"])]
-    #[Groups(["player:create", "player:update"])]
+    #[Groups(["player:create", "player:update","player:read"])]
     private ?\DateTimeInterface $birthdayDate = null;
 
     #[ORM\Column( nullable: true)]
-    #[Groups(["player:create", "player:update"])]
+    #[Groups(["player:create", "player:update","player:read"])]
     private ?array $favoriteGames = null;
 
     /**
