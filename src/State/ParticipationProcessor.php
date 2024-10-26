@@ -20,7 +20,7 @@ class ParticipationProcessor implements ProcessorInterface
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
-
+        assert($data->getPlaytest()->getParticipants()->count() < $data->getPlaytest()->getNbMaxPlayer(), "The Playtest already reach the maximum amount of players");
         $data->setPlayer($this->security->getUser());
         // Handle the state
         return $this->persistProcessor->process($data, $operation, $uriVariables, $context);
