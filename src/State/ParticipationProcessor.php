@@ -20,7 +20,7 @@ class ParticipationProcessor implements ProcessorInterface
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
-
+        // Define the player connected as the player of the participation
         $data->setPlayer($this->security->getUser());
         // Handle the state
         return $this->persistProcessor->process($data, $operation, $uriVariables, $context);
