@@ -7,6 +7,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Repository\PlayerRepository;
@@ -39,36 +40,37 @@ use Symfony\Component\Serializer\Attribute\Groups;
         security: "is_granted('PLAYER_DELETE',object)"
     ),
     new GetCollection()
-    ],normalizationContext: ["groups" => ["player:read"]],
+    ],
+    normalizationContext: ["groups" => ["player:read"]],
 )]
 class Player extends User
 {
     #[ORM\Column(length: 255)]
     #[Assert\NotNull(groups: ["player:create"])]
     #[Assert\NotBlank(groups: ["player:create"])]
-    #[Groups(["player:create", "player:update","player:read"])]
+    #[Groups(["player:create", "player:update","player:read",'participation:player:read'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotNull(groups: ["player:create"])]
     #[Assert\NotBlank(groups: ["player:create"])]
-    #[Groups(["player:create", "player:update","player:read"])]
+    #[Groups(["player:create", "player:update","player:read",'participation:player:read'])]
     private ?string $firstName = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Assert\NotNull(groups: ["player:create"])]
     #[Assert\NotBlank(groups: ["player:create"])]
-    #[Groups(["player:create", "player:update","player:read"])]
+    #[Groups(["player:create", "player:update","player:read",'participation:player:read'])]
     private ?\DateTimeInterface $birthdayDate = null;
 
     #[ORM\Column( nullable: true)]
-    #[Groups(["player:create", "player:update","player:read"])]
+    #[Groups(["player:create", "player:update","player:read",'participation:player:read'])]
     private ?array $favoriteGames = null;
 
     /**
      * @var Collection<int, Participation>
      */
-    #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'player', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'player',cascade:['persist'], orphanRemoval: true)]
     private Collection $participations;
 
     public function __construct()
@@ -131,7 +133,7 @@ class Player extends User
         return $this->participations;
     }
 
-    public function addRegistration(Participation $participation): static
+    public function addParticipation(Participation $participation): static
     {
         if (!$this->participations->contains($participation)) {
             $this->participations->add($participation);
@@ -141,12 +143,12 @@ class Player extends User
         return $this;
     }
 
-    public function removeRegistration(Participation $registration): static
+    public function removeParticipation(Participation $participation): static
     {
-        if ($this->participations->removeElement($registration)) {
+        if ($this->participations->removeElement($participation)) {
             // set the owning side to null (unless already changed)
-            if ($registration->getPlayer() === $this) {
-                $registration->setPlayer(null);
+            if ($participation->getPlayer() === $this) {
+                $participation->setPlayer(null);
             }
         }
 

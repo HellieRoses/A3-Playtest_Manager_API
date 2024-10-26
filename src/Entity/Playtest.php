@@ -60,22 +60,22 @@ class Playtest
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotBlank(groups: ["playtest:create"])]
     #[Assert\NotNull(groups: ["playtest:create"])]
-    #[Groups(["playtest:create", "playtest:read"])]
+    #[Groups(["playtest:create", "playtest:read","participation:playtest:read"])]
     private ?VideoGame $videoGame = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Assert\Type("\DateTimeInterface",groups: ["playtest:create","playtest:update"])]
-    #[Groups(["playtest:create","playtest:update", "playtest:read"])]
+    #[Groups(["playtest:create","playtest:update", "playtest:read","participation:playtest:read"])]
     private ?\DateTimeInterface $begin = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Assert\Type("\DateTimeInterface",groups: ["playtest:create","playtest:update"])]
     #[Assert\GreaterThan(propertyPath: "begin")]
-    #[Groups(["playtest:create","playtest:update", "playtest:read"])]
+    #[Groups(["playtest:create","playtest:update", "playtest:read","participation:playtest:read"])]
     private ?\DateTimeInterface $end = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(["playtest:create","playtest:update", "playtest:read"])]
+    #[Groups(["playtest:create","playtest:update", "playtest:read","participation:playtest:read"])]
     private ?string $adress = null;
 
     #[ORM\ManyToOne(inversedBy: 'playtests')]
@@ -97,7 +97,7 @@ class Playtest
     /**
      * @var Collection<int, Participation>
      */
-    #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'playtest', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'playtest', cascade: ['persist'],orphanRemoval: true)]
     private Collection $participants;
 
     public function __construct()
@@ -202,22 +202,22 @@ class Playtest
         return $this->participants;
     }
 
-    public function addRegistration(Participation $registration): static
+    public function addParticipation(Participation $participation): static
     {
-        if (!$this->participants->contains($registration)) {
-            $this->participants->add($registration);
-            $registration->setPlaytest($this);
+        if (!$this->participants->contains($participation)) {
+            $this->participants->add($participation);
+            $participation->setPlaytest($this);
         }
 
         return $this;
     }
 
-    public function removeRegistration(Participation $registration): static
+    public function removeParticipation(Participation $participation): static
     {
-        if ($this->participants->removeElement($registration)) {
+        if ($this->participants->removeElement($participation)) {
             // set the owning side to null (unless already changed)
-            if ($registration->getPlaytest() === $this) {
-                $registration->setPlaytest(null);
+            if ($participation->getPlaytest() === $this) {
+                $participation->setPlaytest(null);
             }
         }
 
