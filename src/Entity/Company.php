@@ -31,10 +31,13 @@ use Symfony\Component\Validator\Constraints as Assert;
     ),
     new Patch(
         denormalizationContext: ["groups" => ["company:update"]],
+        security: "is_granted('COMPANY_MODIFY',object)",
         validationContext: ["groups" => ["Default", "company:update"]],
         processor: UserProcessor::class
-    ), //TODO  path security with auth
-    new Delete(), //TODO path security with auth
+    ),
+    new Delete(
+        security: "is_granted('COMPANY_DELETE',object)"
+    ),
     new GetCollection(),
     ],normalizationContext: ["groups" => ["company:read"]],
 )]
