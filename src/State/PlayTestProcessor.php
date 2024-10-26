@@ -20,6 +20,7 @@ class PlayTestProcessor implements ProcessorInterface
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
+        assert($data->getVideoGame()->getCompany() == $this->security->getUser(),"The Video Game must be created by this company");
         // Define the companyConnected as the creator of the event
          $data->setCompany($this->security->getUser());
         return $this->persistProcessor->process($data, $operation, $uriVariables, $context);
