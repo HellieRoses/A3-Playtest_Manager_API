@@ -36,7 +36,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Get(),
         new GetCollection(),
         new Delete(
-            security: "is_granted('PLAYTEST_MODIFY',object))",
+            security: "is_granted('PLAYTEST_DELETE',object))",
         ),
         new GetCollection(
             uriTemplate: '/companies/{idCompany}/playtests',

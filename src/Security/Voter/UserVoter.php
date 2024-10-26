@@ -7,10 +7,9 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-final class PlayerVoter extends Voter
+final class UserVoter extends Voter
 {
-    public const DELETE = 'PLAYER_DELETE';
-    public const MODIFY = 'PLAYER_MODIFY';
+    public const CHANGE = 'CHANGER_ROLES';
 
     public function __construct(
         private readonly Security $security
@@ -22,8 +21,8 @@ final class PlayerVoter extends Voter
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, [self::DELETE, self::MODIFY])
-            && $subject instanceof \App\Entity\Player;
+        return in_array($attribute, [self::CHANGE])
+            && $subject instanceof \App\Entity\User;
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
@@ -37,10 +36,8 @@ final class PlayerVoter extends Voter
 
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
-            case self::DELETE:
-                return ($user instanceof \App\Entity\Player && ($subject->getId() == $user->getId())) || $this->security->isGranted('ROLE_ADMIN');
-            case self::MODIFY:
-                return ($user instanceof \App\Entity\Player && $subject->getId() == $user->getId());
+            case self::CHANGE:
+                return ($this->security->isGranted('ROLE_ADMIN') && in_array($user->getRoles(), ['ROLE_ADMIN']));
         }
 
         return false;

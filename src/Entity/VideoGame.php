@@ -31,7 +31,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             processor: VideoGameProcessor::class
         ),
         new Delete(
-            security: "is_granted('VIDEOGAME_MODIFY', object)"
+            security: "is_granted('VIDEOGAME_DELETE', object)"
         ),
         new Patch(
             denormalizationContext: ["groups"=>["Default","video_game:update"]],
