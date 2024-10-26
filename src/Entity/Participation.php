@@ -24,8 +24,8 @@ use Symfony\Component\Validator\Constraints as Assert;
             processor: ParticipationProcessor::class,
         ),
         new Delete(
-            uriTemplate: "/playtests/participate",
-            security: "is_granted('PARTICIPATION_DELETE',object)",
+            uriTemplate: "/playtests/participate/{id}",
+            security: "is_granted('PARTICIPATION_DELETE',object)"
         ),
         new GetCollection(
             uriTemplate: '/playtests/{idPlaytest}/players',
