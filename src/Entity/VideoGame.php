@@ -30,11 +30,11 @@ use Symfony\Component\Validator\Constraints as Assert;
             processor: VideoGameProcessor::class
         ),
         new Delete(
-            security: "is_granted('VIDEOGAME_DELETE', object)"
+            security: "is_granted('VIDEOGAME_MODIFY', object)"
         ),
         new Patch(
             denormalizationContext: ["groups"=>["Default","video_game:update"]],
-            security: "is_granted('VIDEOGAME_PATCH', object)",
+            security: "is_granted('VIDEOGAME_MODIFY', object)",
             validationContext: ["groups"=>["Default","video_game:update"]]
         )
     ]

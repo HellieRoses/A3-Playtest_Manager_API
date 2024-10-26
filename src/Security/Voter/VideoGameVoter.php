@@ -11,14 +11,13 @@ final class VideoGameVoter extends Voter
 {
 
     public const CREATE = 'VIDEOGAME_CREATE';
-    public const DELETE = 'VIDEOGAME_DELETE';
-    public const PATCH = 'VIDEOGAME_PATCH';
+    public const MODIFY = 'VIDEOGAME_MODIFY';
 
     protected function supports(string $attribute, mixed $subject): bool
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, [self::CREATE, self::DELETE, self::PATCH])
+        return in_array($attribute, [self::CREATE, self::MODIFY])
             && $subject instanceof \App\Entity\VideoGame;
     }
 
@@ -35,8 +34,7 @@ final class VideoGameVoter extends Voter
         switch ($attribute) {
             case self::CREATE:
                 return ($user instanceof Company);
-            case self::DELETE:
-            case self::PATCH:
+            case self::MODIFY:
                 return ($user instanceof Company && $user->getId() == $subject->getCompany()->getId());
         }
 
