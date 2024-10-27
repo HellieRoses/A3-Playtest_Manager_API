@@ -38,8 +38,10 @@ final class PlayerVoter extends Voter
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
             case self::DELETE:
-                return ($user instanceof \App\Entity\Player && ($subject->getId() == $user->getId() || $this->security->isGranted('ROLE_ADMIN')));
+                //Check if the user is a player and if the player is the same as the user connected or if the user is an admin        
+                return ($user instanceof \App\Entity\Player && ($subject->getId() == $user->getId())) || $this->security->isGranted('ROLE_ADMIN');        
             case self::MODIFY:
+                //Check if the user is a player and if the player is the same as the user connected
                 return ($user instanceof \App\Entity\Player && $subject->getId() == $user->getId());
         }
 

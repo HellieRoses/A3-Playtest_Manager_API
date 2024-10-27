@@ -19,7 +19,7 @@ class VideoGameProcessor implements ProcessorInterface
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
-        // Define the companyConnected as the creator of the event
+        // Define the company connected as the creator of the video game
         $data->setCompany($this->security->getUser());
         return $this->persistProcessor->process($data, $operation, $uriVariables, $context);
 

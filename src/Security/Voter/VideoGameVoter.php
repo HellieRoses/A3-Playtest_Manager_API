@@ -12,12 +12,13 @@ final class VideoGameVoter extends Voter
 
     public const CREATE = 'VIDEOGAME_CREATE';
     public const MODIFY = 'VIDEOGAME_MODIFY';
+    public const DELETE = 'VIDEOGAME_DELETE';
 
     protected function supports(string $attribute, mixed $subject): bool
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, [self::CREATE, self::MODIFY])
+        return in_array($attribute, [self::CREATE, self::MODIFY,self::DELETE])
             && ($subject instanceof \App\Entity\VideoGame) || is_null($subject);
     }
 
@@ -33,9 +34,14 @@ final class VideoGameVoter extends Voter
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
             case self::CREATE:
+                //Check if the user is a company
                 return ($user instanceof Company);
             case self::MODIFY:
+                //Check if the user is a company and if the videogame company is the same as the user connected
                 return ($user instanceof Company && $user->getId() == $subject->getCompany()->getId());
+            case self::DELETE:
+                return ($user instanceof Company && $user->getId() == $subject->getCompany()->getId()) || in_array("ROLE_ADMIN",$user->getRoles());
+
         }
 
         return false;

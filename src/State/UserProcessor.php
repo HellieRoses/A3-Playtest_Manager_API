@@ -17,6 +17,7 @@ class UserProcessor implements ProcessorInterface
     {
         $plainPassword = $data->getPlainPassword();
         if($plainPassword != null){
+            //on creation or modification of password, the plain password is hashed then erased
             $hashedPassword = $this->passwordHasher->hashPassword($data, $plainPassword);
             $data->setPassword($hashedPassword);
             $data->eraseCredentials();
