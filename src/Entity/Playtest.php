@@ -46,7 +46,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
         new Delete(
             description: "Deletes a Playtest",
-            security: "is_granted('PLAYTEST_DELETE',object))"
+            security: "is_granted('PLAYTEST_DELETE',object)"
         ),
         new GetCollection(
             uriTemplate: '/companies/{idCompany}/playtests',
