@@ -15,7 +15,9 @@ Un joueur connecté peut s'inscrire à une session de jeu ainsi que se désinscr
 <p>
 Un studio connecté peut créer un Jeu Vidéo, le modifier ainsi que le supprimer. Il peut également créer une Session de Jeu, le modifier ainsi que le supprimer.
 </p>
-
+<p>
+Un utilisateur peut avoir des droits d'administrateur. Il peut ainsi supprimer d'autres comptes utilisateurs qui ne sont pas admins. Il peut également suprrimer des Jeux Vidéos ou bien des Sessions de jeu
+</p>
 
 ### Les routes
 
@@ -42,6 +44,8 @@ Un studio connecté peut créer un Jeu Vidéo, le modifier ainsi que le supprime
         - GET : Récupérer les informations d'un Joueur
         - PATCH : Mettre à jour un Joueur
         - DELETE : Supprimer un Joueur
+    - **/api/playtests/{idPlaytest}/players**
+        - GET : Récupérer les joueurs inscrit à une Session de jeu
 - Session de jeu (PlayTest)
     - **/api/playtests**
         - GET : Récupérer toutes les Sessions
@@ -52,6 +56,8 @@ Un studio connecté peut créer un Jeu Vidéo, le modifier ainsi que le supprime
         - DELETE : Supprimer une Session
     - **/api/companies/{idCompany}/playtests**
         - GET : Récupérer les Sessions d'un Studio
+    - **/api/players/{idPlayer}/playtests**
+        - GET : Récupérer les Sessions auquelles participe un joueur
 - Jeu Vidéo (VideoGame)
     - **/api/video_games**
         - GET : Récupérer tout les jeux vidéos
