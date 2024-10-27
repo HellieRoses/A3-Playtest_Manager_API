@@ -6,11 +6,11 @@ Cet API est un gestionnaire d'événement de Session de Test de Jeux Vidéos. Un
 
 https://gitlabinfo.iutmontp.univ-montp2.fr/groupe-projet-web-s5/playtest-manager
 
-## Utilisatton de l'API
+## Utilisation de l'API
 
 Pour utiliser pleinenement l'API, il faut d'abord s'authentifier. Pour cela, il faudra s'inscrire en tant que Joueur ou Studio puis se connecter. Une fois connecté, l'utilisateur pourra modifier ses informations ansi que supprimer son compte.
 <p>
-Un joueur connecté peut s'inscrire à une session de jeu ainsi que se désinscrire de celle-ci.
+Un joueur connecté peut s'inscrire à une session de jeu ainsi que se désinscrire de celle-ci. Il ne peut s'inscrire à une session seulement si elle n'est pas déjà pleine ou que ses horaires ne chevauchent pas avec les horaires d'une autre session auquel le joueur est inscrit
 </p>
 <p>
 Un studio connecté peut créer un Jeu Vidéo, le modifier ainsi que le supprimer. Il peut également créer une Session de Jeu, le modifier ainsi que le supprimer.
@@ -22,6 +22,10 @@ Un studio connecté peut créer un Jeu Vidéo, le modifier ainsi que le supprime
 - Authentification
     - **/api/auth**
         - POST : Connecter un Utilisateur (Studio ou Joueur)
+    - **/api/token/refresh**
+        - POST : Rafraichit le refresh token
+    - **/api/token/invalidate**
+        - POST : Invalide le refresh token
 - Studio (Company)
     - **/api/companies**
         - GET : Récupérer les informations de tous les Studios
@@ -59,11 +63,21 @@ Un studio connecté peut créer un Jeu Vidéo, le modifier ainsi que le supprime
 - Participation
     - **/api/playtests/participate**
         - POST : Inscrire le joueur connecté à une Session de jeu
+    - **/api/playtests/participate/{id}**
+        - DELETE : Supprime une participation
+
+### Les commandes
+
+- ** makeAdmin (login) **
+    - Rend l'utilisateur de login: login admin
+- ** removeAdmin (login) **
+    - Enlève le rôle admin de l'utilisateur de login : login
+
 ## Investissement du groupe
 
-- Clément HAMEL : CRUD VideoGames 
-- Maëlys BOISSEZON : CRUD Utilisateurs (Company et Player) avec héritage, connexion utilisateur, Inscription d'un utilisateur à un événement
-- Romain TOUZÉ : CRUD Evenement (Playtest), ROLE_ADMIN, normalizationsContext, 
+- Clément HAMEL : CRUD VideoGames, Vérification des dates et du nombre max joueurs (quand inscription à un playtest)
+- Maëlys BOISSEZON : CRUD Utilisateurs (Company et Player) avec héritage, Connexion des utilisateurs, Gestion du refresh Token, Inscription d'un utilisateur à un événement, Commandes Admin
+- Romain TOUZÉ : CRUD Evenement (Playtest), Gestion du ROLE_ADMIN, normalizationsContext, Gestion de la securité via Voter
 
 ## Indications supplémentaires
 
