@@ -30,7 +30,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
         new Delete(
             uriTemplate: "/playtests/participate/{id}",
-            security: "is_granted('PARTICIPATION_DELETE',object)"
+            security: "is_granted('PARTICIPATION_DELETE',object)",
             description: "Deletes a participation",
         ),
         new GetCollection(
