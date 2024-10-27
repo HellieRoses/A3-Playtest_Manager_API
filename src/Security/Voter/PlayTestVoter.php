@@ -11,12 +11,13 @@ final class PlayTestVoter extends Voter
 {
     public const CREATE = 'PLAYTEST_CREATE';
     public const MODIFY = 'PLAYTEST_MODIFY';
+    public const DELETE = 'PLAYTEST_DELETE';
 
     protected function supports(string $attribute, mixed $subject): bool
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, [self::CREATE, self::MODIFY])
+        return in_array($attribute, [self::CREATE, self::MODIFY,self::DELETE])
             && ($subject instanceof \App\Entity\PlayTest) || is_null($subject);
     }
 
@@ -34,9 +35,12 @@ final class PlayTestVoter extends Voter
             case self::CREATE:
                 //Check if user is a company
                 return ($user instanceof Company);
-            case self::MODIFY:
+             case self::MODIFY:
                 //Check if user is a company and the company of the playtest is the same as the user connected
                 return ($user instanceof Company && $subject->getCompany() == $user);
+            case self::DELETE:
+                //Check if user is a company and is the company of the playtest or if the tuser is admin
+                return ($user instanceof Company && $subject->getCompany() == $user) || in_array("ROLE_ADMIN",$user->getRoles());
         }
 
         return false;
