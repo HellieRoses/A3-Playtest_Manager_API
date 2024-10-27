@@ -75,6 +75,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     #[Groups(["player:read","company:read"])]
+    #[ApiProperty(security: "is_granted('ROLE_ADMIN')", securityPostDenormalize: "is_granted('CHANGER_ROLES', object)")]
     private array $roles = [];
 
     /**

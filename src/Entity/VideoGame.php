@@ -36,8 +36,8 @@ use Symfony\Component\Validator\Constraints as Assert;
             processor: VideoGameProcessor::class
         ),
         new Delete(
-            description: "Deletes a Video Game",
-            security: "is_granted('VIDEOGAME_MODIFY', object)"
+            security: "is_granted('VIDEOGAME_DELETE', object)"
+            description: "Deletes a Video Game"
         ),
         new Patch(
             description: "Updates a Video Game",
