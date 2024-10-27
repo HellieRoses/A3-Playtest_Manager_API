@@ -68,9 +68,9 @@ Un studio connecté peut créer un Jeu Vidéo, le modifier ainsi que le supprime
 
 ### Les commandes
 
-- ** makeAdmin (login) **
+- **makeAdmin (login)**
     - Rend l'utilisateur de login: login admin
-- ** removeAdmin (login) **
+- **removeAdmin (login)**
     - Enlève le rôle admin de l'utilisateur de login : login
 
 ## Investissement du groupe
