@@ -65,6 +65,7 @@ class Playtest
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(["playtest:read"])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'playtests')]
