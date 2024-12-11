@@ -65,7 +65,7 @@ class VideoGame
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(["video_game:create", "video_game:update", "playtest:read","video_game:read"])]
+    #[Groups(["video_game:create", "video_game:update", "playtest:read","video_game:read","company:read"])]
     #[Assert\NotBlank(groups: ["video_game:create"])]
     #[Assert\NotNull(groups: ["video_game:create"])]
     private ?string $name = null;

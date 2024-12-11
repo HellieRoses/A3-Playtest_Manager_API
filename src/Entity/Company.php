@@ -82,6 +82,7 @@ class Company extends User
      * @var Collection<int, VideoGame>
      */
     #[ORM\OneToMany(targetEntity: VideoGame::class, mappedBy: 'company', orphanRemoval: true)]
+    #[Groups(["company:read"])]
     private Collection $videoGames;
 
     /**
