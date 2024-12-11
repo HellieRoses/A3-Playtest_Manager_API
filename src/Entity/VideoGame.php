@@ -82,6 +82,7 @@ class VideoGame
      * @var Collection<int, Playtest>
      */
     #[ORM\OneToMany(targetEntity: Playtest::class, mappedBy: 'videoGame', orphanRemoval: true)]
+    #[Groups(["video_game:read"])]
     private Collection $playtests;
 
     #[ORM\ManyToOne(inversedBy: 'videoGames')]
