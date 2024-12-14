@@ -33,7 +33,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(["company:read"])]
+    #[Groups(["company:read","video_game:read"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]

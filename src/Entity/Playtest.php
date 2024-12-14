@@ -113,6 +113,10 @@ class Playtest
     #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'playtest', cascade: ['persist'],orphanRemoval: true)]
     private Collection $participants;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(["playtest:read"])]
+    private ?string $typePlayerSearched = null;
+
     public function __construct()
     {
         $this->participants = new ArrayCollection();
@@ -311,6 +315,18 @@ class Playtest
                 $participation->setPlaytest(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTypePlayerSearched(): ?string
+    {
+        return $this->typePlayerSearched;
+    }
+
+    public function setTypePlayerSearched(?string $typePlayerSearched): static
+    {
+        $this->typePlayerSearched = $typePlayerSearched;
 
         return $this;
     }

@@ -62,6 +62,7 @@ class VideoGame
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(["video_game:read"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -90,6 +91,9 @@ class VideoGame
     #[ApiProperty(writable: false)]
     #[Groups(["video_game:read"])]
     private ?Company $company = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $description = null;
 
     public function __construct()
     {
@@ -226,6 +230,18 @@ class VideoGame
     public function setCompany(?Company $company): static
     {
         $this->company = $company;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): static
+    {
+        $this->description = $description;
 
         return $this;
     }
