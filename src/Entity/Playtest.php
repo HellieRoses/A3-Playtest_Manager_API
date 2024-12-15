@@ -57,6 +57,16 @@ use Symfony\Component\Validator\Constraints as Assert;
                 )
             ],
             description: "Retrieves all Company's Playtests"
+        ),
+        new GetCollection(
+            uriTemplate: '/video_games/{idVideoGame}/playtests',
+            uriVariables: [
+                "idVideoGame" => new Link(
+                    fromProperty: "playtests",
+                    fromClass: VideoGame::class
+                )
+            ],
+            description: "Retrieves all VideoGame's Playtests"
         )
     ],normalizationContext: ["groups"=>["Default","playtest:read"]],
 )]
@@ -65,7 +75,7 @@ class Playtest
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(["playtest:read"])]
+    #[Groups(["playtest:read","video_game:read"])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'playtests')]

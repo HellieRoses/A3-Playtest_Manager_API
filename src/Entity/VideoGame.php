@@ -62,7 +62,7 @@ class VideoGame
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(["video_game:read"])]
+    #[Groups(["video_game:read","company:read","playtest:read"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
