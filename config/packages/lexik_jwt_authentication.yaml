@@ -2,8 +2,12 @@ lexik_jwt_authentication:
     secret_key: '%env(resolve:JWT_SECRET_KEY)%'
     public_key: '%env(resolve:JWT_PUBLIC_KEY)%'
     pass_phrase: '%env(JWT_PASSPHRASE)%'
+    blocklist_token:
+        enabled: true
+        cache: cache.app
     set_cookies:
         BEARER: ~
+    token_ttl: 3600
 
     # Pour que l'application recherche le JWT dans les cookies
     token_extractors:
