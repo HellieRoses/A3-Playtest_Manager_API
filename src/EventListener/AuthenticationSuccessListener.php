@@ -25,7 +25,8 @@ class AuthenticationSuccessListener
         $data['id'] = $user->getId();
         $data['login'] = $user->getLogin();
         $data['email'] = $user->getEmail();
-        //$data['discriminator'] = get_class($user);
+        $path = explode('\\', get_class($user));
+        $data['type'] = array_pop($path);
 
         //Récupération des données contenues de le JWT - À compléter
         //On décode le jwt qui est déjà encodé, à ce stade, afin de récupérer les informations qui nous intéressent.
