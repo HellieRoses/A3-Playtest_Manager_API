@@ -34,6 +34,7 @@ security:
                 check_path: api_refresh_token
             logout:
                 path: api_token_invalidate
+                delete_cookies: ['BEARER']
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
