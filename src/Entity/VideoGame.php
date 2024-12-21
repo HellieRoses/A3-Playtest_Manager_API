@@ -93,6 +93,7 @@ class VideoGame
     private ?Company $company = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(["video_game:create", "video_game:update", "playtest:read","video_game:read"])]
     private ?string $description = null;
 
     public function __construct()
