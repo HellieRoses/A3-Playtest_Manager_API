@@ -75,7 +75,7 @@ class Playtest
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(["playtest:read","video_game:read"])]
+    #[Groups(["playtest:read","video_game:read","participation:playtest:read"])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'playtests')]
@@ -103,7 +103,7 @@ class Playtest
     #[ORM\ManyToOne(inversedBy: 'playtests')]
     #[ORM\JoinColumn(nullable: false)]
     #[ApiProperty(writable: false)]
-    #[Groups(["playtest:read"])]
+    #[Groups(["playtest:read","participation:playtest:read"])]
     private ?Company $company = null;
 
     #[ORM\Column]
