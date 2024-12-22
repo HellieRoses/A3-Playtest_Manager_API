@@ -124,7 +124,7 @@ class Playtest
     private Collection $participants;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(["playtest:read"])]
+    #[Groups(["playtest:read","playtest:create","playtest:update"])]
     private ?string $typePlayerSearched = null;
 
     public function __construct()

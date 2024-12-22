@@ -68,7 +68,7 @@ class Company extends User
     #[ORM\Column(length: 255)]
     #[Assert\NotNull(groups: ["company:create"])]
     #[Assert\NotBlank(groups: ["company:create"])]
-    #[Groups(["company:create", "company:update","video_game:read","company:read"])]
+    #[Groups(["company:create", "company:update","video_game:read","company:read","playtest:read"])]
     private ?string $adress = null;
 
     #[ORM\Column(length: 255)]
