@@ -83,9 +83,9 @@ L'argument login dans chacune des commandes n'est pas obligatoire car il est dem
 
 ## Investissement du groupe
 
-- Clément HAMEL : CRUD VideoGames, Vérification des dates et du nombre max joueurs (quand inscription à un playtest)
+- Clément H. : CRUD VideoGames, Vérification des dates et du nombre max joueurs (quand inscription à un playtest)
 - Maëlys BOISSEZON : CRUD Utilisateurs (Company et Player) avec héritage, Connexion des utilisateurs, Gestion du refresh Token, Inscription d'un utilisateur à un événement, Commandes Admin
-- Romain TOUZÉ : CRUD Evenement (Playtest), Gestion du ROLE_ADMIN, normalizationsContext, Gestion de la securité via Voter
+- Romain T. : CRUD Evenement (Playtest), Gestion du ROLE_ADMIN, normalizationsContext, Gestion de la securité via Voter
 
 ## Indications supplémentaires
 
