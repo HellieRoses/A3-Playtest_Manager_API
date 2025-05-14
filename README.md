@@ -4,7 +4,7 @@ Cet API est un gestionnaire d'événement de Session de Test de Jeux Vidéos. Un
 
 ## Lien du dépot Git
 
-https://gitlabinfo.iutmontp.univ-montp2.fr/groupe-projet-web-s5/playtest-manager
+https://github.com/HellieRoses/A3-Playtest_Manager_API
 
 ## Utilisation de l'API
 
